@@ -405,20 +405,17 @@ var TRI=[
   {s1:'UNIBTC',s2:'UNIUSDT',s3:'BTCUSDT',a:'BTC',b:'UNI'},
   {s1:'MATICETH',s2:'MATICUSDT',s3:'ETHUSDT',a:'ETH',b:'MATIC'},
   {s1:'NEARBTC',s2:'NEARUSDT',s3:'BTCUSDT',a:'BTC',b:'NEAR'},
-  {s1:'FTMBTC',s2:'FTMUSDT',s3:'BTCUSDT',a:'BTC',b:'FTM'},
-  {s1:'SANDBTC',s2:'SANDUSDT',s3:'BTCUSDT',a:'BTC',b:'SAND'},
   {s1:'AAVEBTC',s2:'AAVEUSDT',s3:'BTCUSDT',a:'BTC',b:'AAVE'},
   {s1:'TRXBTC',s2:'TRXUSDT',s3:'BTCUSDT',a:'BTC',b:'TRX'},
-  {s1:'SHIBBTC',s2:'SHIBUSDT',s3:'BTCUSDT',a:'BTC',b:'SHIB'},
   {s1:'SUIBTC',s2:'SUIUSDT',s3:'BTCUSDT',a:'BTC',b:'SUI'},
   {s1:'ARBBTC',s2:'ARBUSDT',s3:'BTCUSDT',a:'BTC',b:'ARB'},
-  {s1:'OPBTC',s2:'OPUSDT',s3:'BTCUSDT',a:'BTC',b:'OP'}
 ];
 
 function calcTri(pm,fp,minP,ex){
   var f=fp/100,res=[];
   TRI.forEach(function(p){
     var p1=pm[p.s1],p2=pm[p.s2],p3=pm[p.s3];
+    // Auto-filter: raha tsy misy ny pair iray dia skip
     if(!p1||!p2||!p3)return;
     var routes=[
       {route:'USDT→'+p.a+'→'+p.b+'→USDT',
@@ -471,9 +468,10 @@ function doScan(){
     var tradeAmt=parseFloat(document.getElementById('aamt').value)||50;
     sd=results.map(function(r){return Object.assign({},r,{capital:capital,tradeAmt:tradeAmt,gain:parseFloat((r.net/100*tradeAmt).toFixed(4))});});
 
+    var activePairs=TRI.filter(function(p){return bm[p.s1]&&bm[p.s2]&&bm[p.s3];}).length;
     document.getElementById('opp').textContent=sd.length;
     document.getElementById('maxp').textContent=sd.length?'+'+sd[0].net.toFixed(3)+'% NET':'0%';
-    document.getElementById('tkr').textContent='Binance: '+Object.keys(bm).length+' · MEXC: '+Object.keys(mm).length+' pairs · '+new Date().toLocaleTimeString();
+    document.getElementById('tkr').textContent='Binance: '+Object.keys(bm).length+' · MEXC: '+Object.keys(mm).length+' pairs · Triangulaire actifs: '+activePairs+'/'+TRI.length+' · '+new Date().toLocaleTimeString();
     document.getElementById('dot').className='dot on';
     document.getElementById('slbl').textContent='Live';
     document.getElementById('prog').textContent=mok?'':'⚠️ MEXC: démarrez bot Termux (port '+BOT+')';
@@ -698,4 +696,3 @@ document.getElementById('ov').addEventListener('click',function(e){if(e.target==
 </script>
 </body>
 </html>
-
