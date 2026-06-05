@@ -2,6 +2,10 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<!-- v2.0 Matul Trade Pro with Bot Executor -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Matul Trade Pro</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
@@ -9,350 +13,535 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0a0a0a;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
 .app{max-width:480px;margin:0 auto;padding:14px;padding-bottom:80px}
+
+/* Header */
 .hdr{text-align:center;padding:14px 0 10px}
 .logo{width:42px;height:42px;border-radius:50%;background:#1a3a1a;border:2px solid #4ade80;display:flex;align-items:center;justify-content:center;font-size:13px;color:#4ade80;font-weight:600;margin:0 auto 6px}
 .title{font-size:26px;font-weight:600;color:#c8f135}
 .sub{font-size:11px;color:#666;margin-top:2px}
-.bdg{font-size:11px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:5px}
+.badge{font-size:11px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:5px}
 .dot{width:7px;height:7px;border-radius:50%;background:#444}
 .dot.on{background:#4ade80;animation:pulse 2s infinite}
 .dot.sc{background:#f59e0b;animation:pulse .4s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-.mban{border-radius:10px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
-.mban.sim{background:#1a2a1a;border:1px solid #4ade80}
-.mban.rel{background:#2a1a00;border:1px solid #f59e0b}
-.mlbl{font-size:13px;font-weight:600}
-.mlbl.sim{color:#4ade80}
-.mlbl.rel{color:#f59e0b}
-.mtog{background:transparent;border:0.5px solid #444;border-radius:20px;padding:5px 14px;font-size:12px;color:#aaa;cursor:pointer}
+
+/* Mode banner */
+.mode-banner{border-radius:10px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.mode-banner.sim{background:#1a2a1a;border:1px solid #4ade80}
+.mode-banner.real{background:#2a1a00;border:1px solid #f59e0b}
+.mode-label{font-size:13px;font-weight:600}
+.mode-label.sim{color:#4ade80}
+.mode-label.real{color:#f59e0b}
+.mode-toggle{background:transparent;border:0.5px solid #444;border-radius:20px;padding:5px 14px;font-size:12px;color:#aaa;cursor:pointer;display:flex;align-items:center;gap:5px}
+.mode-toggle:active{opacity:.7}
+
+/* Stats */
 .sg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
 .sc{background:#1a1a1a;border-radius:10px;padding:11px 12px;border:.5px solid #2a2a2a}
 .sl{font-size:10px;color:#555;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
 .sv{font-size:20px;font-weight:600;color:#38bdf8}
 .sv.g{color:#4ade80}
 .sv.y{color:#f59e0b}
-.sv.s{font-size:13px;color:#aaa;font-weight:400}
-.acard{background:#1a1a1a;border-radius:10px;padding:12px 14px;margin-bottom:8px;border:.5px solid #2a2a2a}
-.ahdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.atit{font-size:13px;font-weight:600}
-.twrap{display:flex;align-items:center;gap:8px}
-.tog{width:48px;height:26px;border-radius:13px;background:#333;border:none;cursor:pointer;position:relative;transition:background .2s}
-.tog.on{background:#4ade80}
-.tok{width:20px;height:20px;border-radius:50%;background:#fff;position:absolute;top:3px;left:3px;transition:left .2s}
-.tog.on .tok{left:25px}
-.tlbl{font-size:12px;font-weight:600}
-.tlbl.on{color:#4ade80}
-.tlbl.off{color:#f87171}
-.afld{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.af{display:flex;flex-direction:column;gap:4px}
+.sv.r{color:#f87171}
+.sv.sm{font-size:13px;color:#aaa;font-weight:400}
+
+/* Auto trade card */
+.auto-card{background:#1a1a1a;border-radius:10px;padding:12px 14px;margin-bottom:8px;border:.5px solid #2a2a2a}
+.auto-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.auto-title{font-size:13px;font-weight:600;color:#fff}
+.toggle-wrap{display:flex;align-items:center;gap:8px}
+.toggle{width:48px;height:26px;border-radius:13px;background:#333;border:none;cursor:pointer;position:relative;transition:background .2s}
+.toggle.on{background:#4ade80}
+.toggle-knob{width:20px;height:20px;border-radius:50%;background:#fff;position:absolute;top:3px;left:3px;transition:left .2s}
+.toggle.on .toggle-knob{left:25px}
+.toggle-lbl{font-size:12px;font-weight:600}
+.toggle-lbl.on{color:#4ade80}
+.toggle-lbl.off{color:#f87171}
+.auto-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.afield{display:flex;flex-direction:column;gap:4px}
 .afl{font-size:10px;color:#555;text-transform:uppercase;letter-spacing:.5px}
 .afi{background:#111;border:.5px solid #333;border-radius:7px;color:#fff;font-size:13px;padding:7px 9px;outline:none;width:100%}
+.afi:focus{border-color:#4ade80}
+
+/* Controls */
 .ctrl{background:#1a1a1a;border-radius:10px;padding:11px 12px;margin-bottom:10px;border:.5px solid #2a2a2a}
-.crow{display:flex;gap:7px;flex-wrap:wrap;align-items:flex-end}
+.ctrl-row{display:flex;gap:7px;flex-wrap:wrap;align-items:flex-end}
 .cg{display:flex;flex-direction:column;gap:3px}
 .cl{font-size:10px;color:#555;text-transform:uppercase;letter-spacing:.5px}
 .ci{background:#111;border:.5px solid #333;border-radius:7px;color:#fff;font-size:13px;padding:7px 8px;width:82px;outline:none}
-.bscan{background:#c8f135;color:#111;border:none;border-radius:7px;font-size:13px;font-weight:600;padding:8px 14px;cursor:pointer;display:flex;align-items:center;gap:5px}
-.bauto{background:#1a2a1a;color:#4ade80;border:1px solid #4ade80;border-radius:7px;font-size:10px;padding:6px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px}
-.bauto.on{background:#4ade80;color:#111}
+.btn-scan{background:#c8f135;color:#111;border:none;border-radius:7px;font-size:13px;font-weight:600;padding:8px 14px;cursor:pointer;display:flex;align-items:center;gap:5px}
+.btn-scan:active{opacity:.8}
+.btn-auto-scan{background:#1a2a1a;color:#4ade80;border:1px solid #4ade80;border-radius:7px;font-size:12px;padding:8px 10px;cursor:pointer}
+.btn-auto-scan.on{background:#4ade80;color:#111}
 .prog{font-size:10px;color:#666;text-align:center;padding:4px 0;min-height:16px}
+
+/* Table */
 .th{display:grid;grid-template-columns:2fr .8fr .8fr 58px;gap:4px;padding:5px 8px;margin-bottom:4px}
 .th span{font-size:10px;color:#444;font-weight:600;text-transform:uppercase}
-.row{background:#1a1a1a;border-radius:9px;margin-bottom:6px;border:.5px solid #2a2a2a}
+.row{background:#1a1a1a;border-radius:9px;margin-bottom:6px;border:.5px solid #2a2a2a;transition:border-color .3s}
 .row.hot{border-color:#4ade80}
-.row.sim{border-color:#38bdf8}
+.row.sim-row{border-color:#38bdf8;opacity:.8}
 .rt{display:grid;grid-template-columns:2fr .8fr .8fr 58px;gap:4px;padding:9px 8px;align-items:center}
 .rx{font-size:10px;color:#ddd;font-family:'Courier New',monospace;line-height:1.4}
-.rdb{font-size:9px;margin-top:2px;color:#666}
+.rdb{font-size:9px;margin-top:2px}
+.rdb.mexc{color:#f59e0b}
+.rdb.bnb{color:#38bdf8}
+.rdb.sim{color:#4ade80}
 .pp{font-size:12px;font-weight:600;color:#4ade80}
 .gv{font-size:11px;color:#4ade80;font-weight:500}
-.bgo{background:#4ade80;color:#111;border:none;border-radius:6px;font-size:11px;font-weight:600;padding:7px 3px;cursor:pointer;width:100%}
-.bgo.s{background:#38bdf8}
+.btn-go{background:#4ade80;color:#111;border:none;border-radius:6px;font-size:11px;font-weight:600;padding:7px 3px;cursor:pointer;width:100%}
+.btn-go.sim{background:#38bdf8;color:#111}
+.btn-go:active{opacity:.8}
 .empty{text-align:center;color:#333;font-size:13px;padding:2rem 1rem;line-height:2}
-.tkr{font-size:10px;color:#333;text-align:center;padding:3px 0 6px;font-family:'Courier New',monospace}
-.snote{font-size:11px;color:#38bdf8;text-align:center;padding:4px 8px;background:#0a1a2a;border-radius:6px;margin-bottom:8px}
+.ticker{font-size:10px;color:#333;text-align:center;padding:3px 0 6px;font-family:'Courier New',monospace}
+.sim-note{font-size:11px;color:#38bdf8;text-align:center;padding:4px 8px;background:#0a1a2a;border-radius:6px;margin-bottom:8px}
+
+/* Spin */
 .spin{animation:spin 1s linear infinite}
-.bnav{position:fixed;bottom:0;left:0;right:0;background:#111;border-top:.5px solid #222;display:flex;justify-content:space-around;padding:8px 0 10px;z-index:50}
-.bni{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;opacity:.5;background:none;border:none;color:#fff;font-size:10px;padding:4px 14px}
-.bni.a{opacity:1;color:#4ade80}
-.bni i{font-size:22px}
-.pg{display:none}
-.pg.a{display:block}
-.stit{font-size:12px;color:#555;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 8px;font-weight:600}
-.dstat{background:#1a1a1a;border-radius:10px;padding:12px 14px;margin-bottom:8px;border:.5px solid #2a2a2a}
-.dr{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:.5px solid #1e1e1e;font-size:13px}
-.dr:last-child{border-bottom:none}
-.dr span:first-child{color:#666}
-.dv{color:#fff;font-weight:500}
-.dv.g{color:#4ade80}
-.dv.r{color:#f87171}
-.hi{background:#1a1a1a;border-radius:8px;padding:10px 12px;margin-bottom:6px;border:.5px solid #2a2a2a;display:flex;justify-content:space-between;align-items:center}
-.hl{flex:1}
-.hr2{font-size:10px;font-family:'Courier New',monospace;color:#ddd;margin-bottom:3px}
-.hm{font-size:10px;color:#555}
-.hrt{text-align:right}
-.hp{font-size:13px;font-weight:600}
-.hp.g{color:#4ade80}
-.hp.r{color:#f87171}
-.ss{background:#1a1a1a;border-radius:10px;margin-bottom:10px;border:.5px solid #2a2a2a;overflow:hidden}
-.sh{padding:11px 14px;font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.5px;border-bottom:.5px solid #222;display:flex;align-items:center;gap:8px}
-.sr{padding:12px 14px;border-bottom:.5px solid #111;display:flex;justify-content:space-between;align-items:center}
-.sr:last-child{border-bottom:none}
-.sl2{font-size:13px;color:#ddd}
-.ssub{font-size:11px;color:#555;margin-top:2px}
-.si{background:#111;border:.5px solid #333;border-radius:6px;color:#fff;font-size:13px;padding:6px 9px;width:140px;outline:none;text-align:right}
-.sst{font-size:11px;padding:3px 8px;border-radius:4px}
-.sst.ok{background:#1a3a1a;color:#4ade80}
-.sst.no{background:#2a1a1a;color:#f87171}
-.bsv{background:#4ade80;color:#111;border:none;border-radius:7px;font-size:12px;font-weight:600;padding:7px 14px;cursor:pointer;margin-top:10px;width:100%}
+
+/* Bottom nav */
+.bnav{position:fixed;bottom:0;left:0;right:0;background:#111;border-top:.5px solid #222;display:flex;justify-content:space-around;padding:8px 0 10px;z-index:50;max-width:480px;margin:0 auto}
+.bnav-item{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;opacity:.5;transition:opacity .2s;background:none;border:none;color:#fff;font-size:10px;padding:4px 14px}
+.bnav-item.active{opacity:1;color:#4ade80}
+.bnav-item i{font-size:22px}
+
+/* Pages */
+.page{display:none}
+.page.active{display:block}
+
+/* Dashboard */
+.section-title{font-size:12px;color:#555;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 8px;font-weight:600}
+.dash-stat{background:#1a1a1a;border-radius:10px;padding:12px 14px;margin-bottom:8px;border:.5px solid #2a2a2a}
+.dash-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:.5px solid #1e1e1e;font-size:13px}
+.dash-row:last-child{border-bottom:none}
+.dash-row span:first-child{color:#666}
+.dash-val{color:#fff;font-weight:500}
+.dash-val.g{color:#4ade80}
+.dash-val.r{color:#f87171}
+.dash-val.y{color:#f59e0b}
+.hist-item{background:#1a1a1a;border-radius:8px;padding:10px 12px;margin-bottom:6px;border:.5px solid #2a2a2a;display:flex;justify-content:space-between;align-items:center}
+.hist-left{flex:1}
+.hist-route{font-size:10px;font-family:'Courier New',monospace;color:#ddd;margin-bottom:3px}
+.hist-meta{font-size:10px;color:#555}
+.hist-right{text-align:right}
+.hist-profit{font-size:13px;font-weight:600}
+.hist-profit.g{color:#4ade80}
+.hist-profit.r{color:#f87171}
+.hist-mode{font-size:9px;color:#666;margin-top:2px}
+
+/* Settings */
+.set-section{background:#1a1a1a;border-radius:10px;margin-bottom:10px;border:.5px solid #2a2a2a;overflow:hidden}
+.set-header{padding:11px 14px;font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.5px;border-bottom:.5px solid #222;display:flex;align-items:center;gap:8px}
+.set-row{padding:12px 14px;border-bottom:.5px solid #111;display:flex;justify-content:space-between;align-items:center}
+.set-row:last-child{border-bottom:none}
+.set-label{font-size:13px;color:#ddd}
+.set-sub{font-size:11px;color:#555;margin-top:2px}
+.set-val{font-size:12px;color:#4ade80;font-family:'Courier New',monospace}
+.set-input{background:#111;border:.5px solid #333;border-radius:6px;color:#fff;font-size:13px;padding:6px 9px;width:140px;outline:none;text-align:right}
+.set-input:focus{border-color:#4ade80}
+.set-status{font-size:11px;padding:3px 8px;border-radius:4px}
+.set-status.ok{background:#1a3a1a;color:#4ade80}
+.set-status.no{background:#2a1a1a;color:#f87171}
+.btn-save{background:#4ade80;color:#111;border:none;border-radius:7px;font-size:12px;font-weight:600;padding:7px 14px;cursor:pointer;margin-top:10px;width:100%}
+.btn-save:active{opacity:.8}
+
+/* Modal */
 .ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:100;align-items:flex-end;justify-content:center}
 .ov.show{display:flex}
 .mod{background:#1a1a1a;border-radius:14px 14px 0 0;padding:20px 16px 30px;width:100%;max-width:480px;border-top:.5px solid #333;max-height:90vh;overflow-y:auto}
 .mh{width:36px;height:4px;background:#333;border-radius:2px;margin:0 auto 16px}
-.mt2{font-size:15px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.mr2{display:flex;justify-content:space-between;padding:8px 0;border-bottom:.5px solid #1e1e1e;font-size:13px}
-.mr2 span:first-child{color:#666}
+.mt{font-size:15px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.mr{display:flex;justify-content:space-between;padding:8px 0;border-bottom:.5px solid #1e1e1e;font-size:13px}
+.mr span:first-child{color:#666}
 .mv{color:#fff;font-weight:500}
 .mg{color:#4ade80;font-weight:500}
 .mm{font-family:'Courier New',monospace;font-size:10px;color:#777;text-align:right;max-width:58%}
-.ms{display:flex;gap:8px;padding:8px 0;border-bottom:.5px solid #111}
-.mn{min-width:20px;height:20px;border-radius:50%;background:#1a3a1a;color:#4ade80;font-weight:600;font-size:11px;display:flex;align-items:center;justify-content:center}
-.mtx{font-size:12px;color:#bbb;line-height:1.5}
-.mtx strong{color:#fff}
+.mstep{display:flex;gap:8px;padding:8px 0;border-bottom:.5px solid #111}
+.mnum{min-width:20px;height:20px;border-radius:50%;background:#1a3a1a;color:#4ade80;font-weight:600;font-size:11px;display:flex;align-items:center;justify-content:center}
+.mtxt{font-size:12px;color:#bbb;line-height:1.5}
+.mtxt strong{color:#fff}
 .ibox{background:#0a2a1a;border:.5px solid #1a4a2a;border-radius:8px;padding:10px;margin-top:10px;font-size:11px;color:#4ade80;line-height:1.7}
 .wbox{background:#2a1800;border:.5px solid #4a2800;border-radius:8px;padding:10px;margin-top:8px;font-size:11px;color:#f59e0b;line-height:1.6}
-.sbox{background:#0a1a2a;border:.5px solid #1a3a4a;border-radius:8px;padding:10px;margin-top:8px;font-size:11px;color:#38bdf8;line-height:1.7}
+.simbox{background:#0a1a2a;border:.5px solid #1a3a4a;border-radius:8px;padding:10px;margin-top:8px;font-size:11px;color:#38bdf8;line-height:1.7}
 .mbtns{display:flex;gap:8px;margin-top:14px}
 .mbc{flex:1;background:#222;color:#aaa;border:.5px solid #333;border-radius:9px;padding:11px;cursor:pointer;font-size:13px}
 .mbg{flex:1;background:#4ade80;color:#111;border:none;border-radius:9px;padding:11px;cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:5px}
-.mbg.s{background:#38bdf8}
+.mbg.sim{background:#38bdf8}
+.mbg:active{opacity:.8}
 </style>
 </head>
 <body>
+
 <div class="app">
 
-<!-- SCANNER PAGE -->
-<div class="pg a" id="pg-scan">
+<!-- ═══ PAGE: SCANNER ═══ -->
+<div class="page active" id="page-scan">
+
 <div class="hdr">
   <div class="logo">MT</div>
   <div class="title">Matul Trade Pro</div>
   <div class="sub">Triangulaire · Binance · MEXC · 0% fees</div>
-  <div class="bdg"><span class="dot" id="dot"></span><span id="slbl" style="color:#aaa;font-size:12px">Prêt</span></div>
+  <div class="badge"><span class="dot" id="dot"></span><span id="slbl" style="color:#aaa;font-size:12px">Prêt</span></div>
 </div>
 
-<div class="mban sim" id="mban" onclick="toggleMode()">
+<!-- Mode banner -->
+<div class="mode-banner sim" id="mode-banner">
   <div>
-    <div class="mlbl sim" id="mlbl">🧪 MODE SIMULATION</div>
-    <div style="font-size:10px;color:#666;margin-top:2px" id="msub">Tsy execute trade marina — tsindrio hanova</div>
+    <div class="mode-label sim" id="mode-label">🧪 MODE SIMULATION</div>
+    <div style="font-size:10px;color:#666;margin-top:2px">Tsy execute trade marina</div>
   </div>
-  <button class="mtog" onclick="event.stopPropagation();toggleMode()">⇄ Changer</button>
+  <button class="mode-toggle" onclick="toggleMode()"><i class="ti ti-arrows-exchange"></i> Changer</button>
 </div>
 
+<!-- Stats -->
 <div class="sg">
-  <div class="sc"><div class="sl">Opportunités</div><div class="sv g" id="opp">0</div></div>
-  <div class="sc"><div class="sl">Profit max NET</div><div class="sv g" id="maxp">—</div></div>
+  <div class="sc"><div class="sl">Opportunités</div><div class="sv g" id="opp-count">0</div></div>
+  <div class="sc"><div class="sl">Profit max</div><div class="sv g" id="max-profit">—</div></div>
 </div>
 <div class="sg">
   <div class="sc"><div class="sl">Capital (USDT)</div>
-    <input id="cap" type="number" value="350" style="width:100%;background:transparent;border:none;color:#4ade80;font-size:18px;font-weight:600;padding:0;margin-top:2px;outline:none">
+    <input id="capital-in" type="number" value="350" style="width:100%;background:transparent;border:none;color:#4ade80;font-size:18px;font-weight:600;padding:0;margin-top:2px;outline:none">
   </div>
-  <div class="sc"><div class="sl">Profit simulé NET</div><div class="sv y" id="simtot">0.000 USDT</div></div>
+  <div class="sc"><div class="sl">Profit simulé total</div><div class="sv y" id="sim-total">0.000 USDT</div></div>
 </div>
 
-<div class="acard">
-  <div class="ahdr">
-    <div class="atit">🤖 Auto Trade</div>
-    <div class="twrap">
-      <span class="tlbl off" id="albl">OFF</span>
-      <button class="tog" id="atog" onclick="toggleAuto()"><div class="tok" id="tok"></div></button>
+<!-- Auto trade -->
+<div class="auto-card">
+  <div class="auto-header">
+    <div class="auto-title"><i class="ti ti-robot" aria-hidden="true"></i> Auto Trade</div>
+    <div class="toggle-wrap">
+      <span class="toggle-lbl off" id="auto-lbl">OFF</span>
+      <button class="toggle" id="auto-toggle" onclick="toggleAuto()"><div class="toggle-knob" id="toggle-knob"></div></button>
     </div>
   </div>
-  <div class="afld">
-    <div class="af"><span class="afl">Min profit %</span><input class="afi" type="number" id="amin" value="0.3" step="0.05" min="0.1"></div>
-    <div class="af"><span class="afl">Montant/trade</span><input class="afi" type="number" id="aamt" value="50" step="10" min="10"></div>
+  <div class="auto-fields">
+    <div class="afield"><span class="afl">Min profit %</span><input class="afi" type="number" id="auto-min" value="0.3" step="0.05" min="0.1"></div>
+    <div class="afield"><span class="afl">Montant / trade</span><input class="afi" type="number" id="auto-amount" value="50" step="10" min="10"></div>
   </div>
 </div>
 
+<!-- Controls -->
 <div class="ctrl">
-  <div class="crow">
-    <div class="cg"><span class="cl">Min profit %</span><input class="ci" type="number" id="minp" value="0.05" step="0.01" min="0.01"></div>
-    <div class="cg"><span class="cl">Frais %</span><input class="ci" type="number" id="fee" value="0.1" step="0.05"></div>
-    <button class="bscan" onclick="doScan()"><i class="ti ti-refresh" id="sic"></i> Scan</button>
-    <button class="bauto" id="abtn" onclick="toggleAS()">
-      <i class="ti ti-player-play" id="aic" style="font-size:14px"></i>
-      <span id="atxt">Auto</span>
+  <div class="ctrl-row">
+    <div class="cg"><span class="cl">Min profit %</span><input class="ci" type="number" id="min-p" value="0.05" step="0.01" min="0.01"></div>
+    <div class="cg"><span class="cl">Frais %</span><input class="ci" type="number" id="fee-in" value="0.1" step="0.05"></div>
+    <button class="btn-scan" onclick="doScan()"><i class="ti ti-refresh" id="scan-ic" aria-hidden="true"></i> Scan</button>
+    <button class="btn-auto-scan" id="auto-scan-btn" onclick="toggleAutoScan()" style="display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 10px;font-size:10px">
+      <i class="ti ti-player-play" id="auto-scan-ic" aria-hidden="true" style="font-size:14px"></i>
+      <span id="auto-scan-txt">Auto</span>
     </button>
   </div>
   <div class="prog" id="prog"></div>
 </div>
 
-<div class="snote" id="snote">🧪 Simulation — Profits calculés sans exécution réelle</div>
+<div id="sim-note-div" class="sim-note"><i class="ti ti-flask" aria-hidden="true"></i> Simulation — Profits calculés sans exécution réelle</div>
+
 <div class="th"><span>Route</span><span>Profit</span><span>Gain</span><span>Action</span></div>
-<div id="res">
-  <div class="empty"><i class="ti ti-arrows-exchange" style="font-size:32px;display:block;margin-bottom:10px"></i>Tsindrio Scan<br><span style="font-size:11px">Binance · MEXC · Triangulaire 25 pairs</span></div>
+<div id="results">
+  <div class="empty"><i class="ti ti-arrows-exchange" style="font-size:32px;display:block;margin-bottom:10px" aria-hidden="true"></i>Tsindrio Scan<br><span style="font-size:11px">Binance · MEXC · Triangulaire</span></div>
 </div>
-<div class="tkr" id="tkr"></div>
+<div class="ticker" id="ticker"></div>
 </div>
 
-<!-- DASHBOARD PAGE -->
-<div class="pg" id="pg-dash">
+<!-- ═══ PAGE: DASHBOARD ═══ -->
+<div class="page" id="page-dash">
 <div style="padding-top:10px">
-  <div class="stit">📊 Statistiques</div>
-  <div class="dstat">
-    <div class="dr"><span>Profit NET simulation</span><span class="dv g" id="dsp">0.0000 USDT</span></div>
-    <div class="dr"><span>Trades simulés</span><span class="dv" id="dst">0</span></div>
-    <div class="dr"><span>Profit NET réel</span><span class="dv g" id="drp">0.0000 USDT</span></div>
-    <div class="dr"><span>Trades réels succès</span><span class="dv g" id="drs">0</span></div>
-    <div class="dr"><span>Trades réels échecs</span><span class="dv r" id="drf">0</span></div>
-    <div class="dr"><span>Taux succès</span><span class="dv" id="drt">—</span></div>
-    <div class="dr"><span>Meilleure opport.</span><span class="dv g" id="dbt">—</span></div>
+  <div class="section-title"><i class="ti ti-chart-bar" aria-hidden="true"></i> Statistiques</div>
+  <div class="dash-stat">
+    <div class="dash-row"><span>Profit total (simulation)</span><span class="dash-val g" id="d-sim-profit">0.000 USDT</span></div>
+    <div class="dash-row"><span>Trades simulés</span><span class="dash-val" id="d-sim-trades">0</span></div>
+    <div class="dash-row"><span>Profit total (réel)</span><span class="dash-val g" id="d-real-profit">0.000 USDT</span></div>
+    <div class="dash-row"><span>Trades réels succès</span><span class="dash-val g" id="d-real-success">0</span></div>
+    <div class="dash-row"><span>Trades réels échecs</span><span class="dash-val r" id="d-real-failed">0</span></div>
+    <div class="dash-row"><span>Taux succès</span><span class="dash-val y" id="d-rate">—</span></div>
+    <div class="dash-row"><span>Meilleure opportunité</span><span class="dash-val g" id="d-best">—</span></div>
+    <div class="dash-row"><span>Exchange le plus actif</span><span class="dash-val" id="d-ex">—</span></div>
   </div>
-  <div class="stit">📋 Historique</div>
-  <div id="hlist"><div class="empty" style="padding:1rem">Aucun trade</div></div>
+
+  <div class="section-title"><i class="ti ti-history" aria-hidden="true"></i> Historique (30 derniers)</div>
+  <div id="hist-list">
+    <div class="empty" style="padding:1rem">Aucun trade enregistré</div>
+  </div>
 </div>
 </div>
 
-<!-- SETTINGS PAGE -->
-<div class="pg" id="pg-set">
+<!-- ═══ PAGE: SETTINGS ═══ -->
+<div class="page" id="page-set">
 <div style="padding-top:10px">
-  <div class="stit">⚙️ Configuration</div>
+  <div class="section-title"><i class="ti ti-settings" aria-hidden="true"></i> Configuration</div>
 
-  <div class="ss">
-    <div class="sh">🤖 Bot Termux (port 9090)</div>
-    <div class="sr">
-      <div><div class="sl2">Statut bot</div><div class="ssub">python3 bot.py @ Termux</div></div>
-      <span class="sst no" id="bot-st">Vérification...</span>
+  <div class="set-section">
+    <div class="set-header"><i class="ti ti-brand-telegram" aria-hidden="true"></i> Telegram</div>
+    <div class="set-row">
+      <div><div class="set-label">Bot Token</div><div class="set-sub">@BotFather → /newbot</div></div>
+      <input class="set-input" id="tg-token" type="password" placeholder="ghp_xxxx...">
     </div>
-    <div style="padding:10px 14px"><button class="bsv" onclick="checkBot()" style="background:#38bdf8;color:#111">🔍 Vérifier bot</button></div>
+    <div class="set-row">
+      <div><div class="set-label">Chat ID</div><div class="set-sub">@userinfobot</div></div>
+      <input class="set-input" id="tg-chatid" placeholder="123456789">
+    </div>
+    <div style="padding:10px 14px">
+      <button class="btn-save" onclick="saveTelegram()"><i class="ti ti-check" aria-hidden="true"></i> Sauvegarder Telegram</button>
+    </div>
   </div>
 
-  <div class="ss">
-    <div class="sh" style="color:#f59e0b">💰 Binance API</div>
-    <div class="sr">
-      <div><div class="sl2">Statut</div></div>
-      <span class="sst no" id="bnb-st">Non configuré</span>
+  <div class="set-section">
+    <div class="set-header" style="color:#f59e0b"><i class="ti ti-coin" aria-hidden="true"></i> Binance API</div>
+    <div class="set-row">
+      <div><div class="set-label">API Key</div><div id="bnb-status" class="set-status no">Non configuré</div></div>
+      <input class="set-input" id="bnb-key" type="password" placeholder="API Key...">
     </div>
-    <div class="sr">
-      <div><div class="sl2">API Key</div></div>
-      <input class="si" id="bnk" type="password" placeholder="API Key...">
+    <div class="set-row">
+      <div><div class="set-label">Secret Key</div></div>
+      <input class="set-input" id="bnb-secret" type="password" placeholder="Secret...">
     </div>
-    <div class="sr">
-      <div><div class="sl2">Secret Key</div></div>
-      <input class="si" id="bns" type="password" placeholder="Secret...">
+    <div style="padding:10px 14px">
+      <button class="btn-save" onclick="saveExchange('binance')"><i class="ti ti-check" aria-hidden="true"></i> Sauvegarder Binance</button>
     </div>
-    <div style="padding:10px 14px"><button class="bsv" onclick="saveEx('binance')">✅ Sauvegarder Binance</button></div>
   </div>
 
-  <div class="ss">
-    <div class="sh" style="color:#f59e0b">💰 MEXC API <span style="color:#4ade80;font-size:10px">0% fees</span></div>
-    <div class="sr">
-      <div><div class="sl2">Statut</div></div>
-      <span class="sst no" id="mxc-st">Non configuré</span>
+  <div class="set-section">
+    <div class="set-header" style="color:#f59e0b"><i class="ti ti-coin" aria-hidden="true"></i> MEXC API <span style="font-size:10px;color:#4ade80;margin-left:8px">0% FEES!</span></div>
+    <div class="set-row">
+      <div><div class="set-label">API Key</div><div id="mexc-status" class="set-status no">Non configuré</div></div>
+      <input class="set-input" id="mexc-key" type="password" placeholder="API Key...">
     </div>
-    <div class="sr">
-      <div><div class="sl2">API Key</div></div>
-      <input class="si" id="mxk" type="password" placeholder="API Key...">
+    <div class="set-row">
+      <div><div class="set-label">Secret Key</div></div>
+      <input class="set-input" id="mexc-secret" type="password" placeholder="Secret...">
     </div>
-    <div class="sr">
-      <div><div class="sl2">Secret Key</div></div>
-      <input class="si" id="mxs" type="password" placeholder="Secret...">
+    <div style="padding:10px 14px">
+      <button class="btn-save" onclick="saveExchange('mexc')"><i class="ti ti-check" aria-hidden="true"></i> Sauvegarder MEXC</button>
     </div>
-    <div style="padding:10px 14px"><button class="bsv" onclick="saveEx('mexc')">✅ Sauvegarder MEXC</button></div>
   </div>
 
-  <div class="ss">
-    <div class="sh">✈️ Telegram</div>
-    <div class="sr">
-      <div><div class="sl2">Bot Token</div><div class="ssub">@BotFather → /newbot</div></div>
-      <input class="si" id="tgt" type="password" placeholder="token...">
+  <div class="set-section">
+    <div class="set-header"><i class="ti ti-coin" aria-hidden="true"></i> KuCoin API</div>
+    <div class="set-row">
+      <div><div class="set-label">API Key</div><div id="kucoin-status" class="set-status no">Non configuré</div></div>
+      <input class="set-input" id="kucoin-key" type="password" placeholder="API Key...">
     </div>
-    <div class="sr">
-      <div><div class="sl2">Chat ID</div><div class="ssub">@userinfobot</div></div>
-      <input class="si" id="tgc" placeholder="123456789">
+    <div class="set-row">
+      <div><div class="set-label">Secret Key</div></div>
+      <input class="set-input" id="kucoin-secret" type="password" placeholder="Secret...">
     </div>
-    <div style="padding:10px 14px"><button class="bsv" onclick="saveTG()">✅ Sauvegarder Telegram</button></div>
+    <div class="set-row">
+      <div><div class="set-label">Passphrase</div></div>
+      <input class="set-input" id="kucoin-pp" type="password" placeholder="Passphrase...">
+    </div>
+    <div style="padding:10px 14px">
+      <button class="btn-save" onclick="saveExchange('kucoin')"><i class="ti ti-check" aria-hidden="true"></i> Sauvegarder KuCoin</button>
+    </div>
   </div>
+
+  <div class="set-section">
+    <div class="set-header"><i class="ti ti-coin" aria-hidden="true"></i> Bybit API</div>
+    <div class="set-row">
+      <div><div class="set-label">API Key</div><div id="bybit-status" class="set-status no">Non configuré</div></div>
+      <input class="set-input" id="bybit-key" type="password" placeholder="API Key...">
+    </div>
+    <div class="set-row">
+      <div><div class="set-label">Secret Key</div></div>
+      <input class="set-input" id="bybit-secret" type="password" placeholder="Secret...">
+    </div>
+    <div style="padding:10px 14px">
+      <button class="btn-save" onclick="saveExchange('bybit')"><i class="ti ti-check" aria-hidden="true"></i> Sauvegarder Bybit</button>
+    </div>
+  </div>
+
+  <div class="set-section">
+    <div class="set-header"><i class="ti ti-coin" aria-hidden="true"></i> Bitget API</div>
+    <div class="set-row">
+      <div><div class="set-label">API Key</div><div id="bitget-status" class="set-status no">Non configuré</div></div>
+      <input class="set-input" id="bitget-key" type="password" placeholder="API Key...">
+    </div>
+    <div class="set-row">
+      <div><div class="set-label">Secret Key</div></div>
+      <input class="set-input" id="bitget-secret" type="password" placeholder="Secret...">
+    </div>
+    <div class="set-row">
+      <div><div class="set-label">Passphrase</div></div>
+      <input class="set-input" id="bitget-pp" type="password" placeholder="Passphrase...">
+    </div>
+    <div style="padding:10px 14px">
+      <button class="btn-save" onclick="saveExchange('bitget')"><i class="ti ti-check" aria-hidden="true"></i> Sauvegarder Bitget</button>
+    </div>
+  </div>
+
+  <div class="set-section">
+    <div class="set-header"><i class="ti ti-coin" aria-hidden="true"></i> MEXC API <span style="font-size:10px;color:#4ade80">0% fees</span></div>
+  </div>
+
   <div style="height:20px"></div>
 </div>
 </div>
 
-</div><!-- end app -->
+</div><!-- end .app -->
 
 <!-- Bottom nav -->
 <div class="bnav">
-  <button class="bni a" id="n-scan" onclick="showPg('scan')"><i class="ti ti-radar"></i>Scanner</button>
-  <button class="bni" id="n-dash" onclick="showPg('dash')"><i class="ti ti-chart-bar"></i>Dashboard</button>
-  <button class="bni" id="n-set" onclick="showPg('set')"><i class="ti ti-settings"></i>Config</button>
+  <button class="bnav-item active" id="nav-scan" onclick="showPage('scan')">
+    <i class="ti ti-radar" aria-hidden="true"></i>Scanner
+  </button>
+  <button class="bnav-item" id="nav-dash" onclick="showPage('dash')">
+    <i class="ti ti-chart-bar" aria-hidden="true"></i>Dashboard
+  </button>
+  <button class="bnav-item" id="nav-set" onclick="showPage('set')">
+    <i class="ti ti-settings" aria-hidden="true"></i>Config
+  </button>
 </div>
 
 <!-- Modal -->
-<div class="ov" id="ov">
+<div class="ov" id="ov" onclick="bgClose(event)">
   <div class="mod"><div class="mh"></div><div id="mc"></div></div>
 </div>
 
 <script>
-var BOT=9090;
-var sd=[],autoOn=false,asInt=null,asOn=false,simMode=true;
-var hist={sim:{t:[],p:0,n:0},real:{t:[],p:0,s:0,f:0}};
-var cfg={tg:{tok:'',cid:''},ex:{binance:{k:'',s:''},mexc:{k:'',s:''}}};
+// ══════════════════════════════════════════════════
+//  State
+// ══════════════════════════════════════════════════
+let scanData=[], autoOn=false, autoScanInt=null, autoScanOn=false;
+let simMode=true;
+let history={sim:{trades:[],profit:0,count:0},real:{trades:[],profit:0,success:0,failed:0}};
+let cfg={telegram:{token:'',chatid:''},exchanges:{binance:{key:'',secret:''},mexc:{key:'',secret:''},kucoin:{key:'',secret:'',pp:''},bybit:{key:'',secret:''},bitget:{key:'',secret:'',pp:''}}};
 
-try{var h=localStorage.getItem('mt_h');if(h)hist=JSON.parse(h);}catch(e){}
-try{var c=localStorage.getItem('mt_c');if(c){cfg=JSON.parse(c);updBdg();}}catch(e){}
+// Load from localStorage
+try{
+  const h=localStorage.getItem('mt_history');
+  if(h) history=JSON.parse(h);
+  const c=localStorage.getItem('mt_cfg');
+  if(c){ cfg=JSON.parse(c); updateStatusBadges(); }
+}catch(e){}
 
-function save(){
-  try{localStorage.setItem('mt_h',JSON.stringify(hist));localStorage.setItem('mt_c',JSON.stringify(cfg));}catch(e){}
+function saveState(){
+  try{
+    localStorage.setItem('mt_history',JSON.stringify(history));
+    localStorage.setItem('mt_cfg',JSON.stringify(cfg));
+  }catch(e){}
 }
 
-function showPg(p){
-  document.querySelectorAll('.pg').forEach(function(x){x.classList.remove('a');});
-  document.querySelectorAll('.bni').forEach(function(x){x.classList.remove('a');});
-  document.getElementById('pg-'+p).classList.add('a');
-  document.getElementById('n-'+p).classList.add('a');
-  if(p==='dash')updDash();
-  if(p==='set')checkBot();
+// ══════════════════════════════════════════════════
+//  Navigation
+// ══════════════════════════════════════════════════
+function showPage(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.bnav-item').forEach(x=>x.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  document.getElementById('nav-'+p).classList.add('active');
+  if(p==='dash') updateDashboard();
 }
 
+// ══════════════════════════════════════════════════
+//  Mode simulation / réel
+// ══════════════════════════════════════════════════
 function toggleMode(){
   simMode=!simMode;
-  var b=document.getElementById('mban');
-  var l=document.getElementById('mlbl');
-  var s=document.getElementById('msub');
-  var n=document.getElementById('snote');
+  const banner=document.getElementById('mode-banner');
+  const label=document.getElementById('mode-label');
+  const note=document.getElementById('sim-note-div');
   if(simMode){
-    b.className='mban sim';
-    l.className='mlbl sim';
-    l.textContent='🧪 MODE SIMULATION';
-    s.textContent='Tsy execute trade marina — tsindrio hanova';
-    n.style.display='block';
+    banner.className='mode-banner sim';
+    label.className='mode-label sim';
+    label.textContent='🧪 MODE SIMULATION';
+    note.style.display='block';
   } else {
-    b.className='mban rel';
-    l.className='mlbl rel';
-    l.textContent='⚡ MODE RÉEL';
-    s.textContent='Bot Termux execute trades — tsindrio hanova';
-    n.style.display='none';
+    banner.className='mode-banner real';
+    label.className='mode-label real';
+    label.textContent='⚡ MODE RÉEL';
+    note.style.display='none';
   }
+}
+
+// ══════════════════════════════════════════════════
+//  Auto trade toggle
+// ══════════════════════════════════════════════════
+function doExecuteReal(i, amount){
+  const r=scanData[i];
+  document.getElementById('mc').innerHTML=`
+    <div class="mt" style="color:#f59e0b"><i class="ti ti-loader spin" aria-hidden="true"></i> Execution en cours...</div>
+    <div style="text-align:center;padding:20px;color:#aaa">Bot manao trades 3 @ Binance...<br><span style="font-size:11px">Miandry ~1 sec</span></div>`;
+  fetch('http://localhost:9090/execute',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({route:r.route,amount,a:r.a,b:r.b})
+  }).then(res=>res.json()).then(result=>{
+    const gainNet=parseFloat((r.profitNet/100*amount).toFixed(4));
+    if(result.success){
+      history.real.trades.unshift({
+        time:new Date().toLocaleTimeString(),
+        route:r.route,exchange:r.exchange,
+        profit:r.profitNet,gain:gainNet,
+        amount,mode:'RÉEL',status:'success',
+        ms:result.total_ms
+      });
+      history.real.profit=parseFloat((history.real.profit+gainNet).toFixed(4));
+      history.real.success++;
+    } else {
+      history.real.failed++;
+      history.real.trades.unshift({
+        time:new Date().toLocaleTimeString(),
+        route:r.route,exchange:r.exchange,
+        profit:r.profitNet,gain:0,
+        amount,mode:'RÉEL',status:'failed'
+      });
+    }
+    saveState();
+    const steps=result.steps||[];
+    document.getElementById('mc').innerHTML=`
+      <div class="mt" style="color:${result.success?'#4ade80':'#f87171'}">
+        ${result.success?'✅ Trade réussi!':'❌ Trade échoué'}
+      </div>
+      <div class="mr"><span>Route</span><span class="mm">${r.route}</span></div>
+      <div class="mr"><span>Durée</span><span class="mv">${result.total_ms}ms</span></div>
+      ${result.success?`<div class="mr"><span>Gain NET</span><span class="mg">+${gainNet} USDT</span></div>`:''}
+      <div style="margin-top:10px">
+        ${steps.map(s=>`<div style="font-size:12px;padding:5px 0;border-bottom:0.5px solid #222;color:${s.ok?'#4ade80':'#f87171'}">${s.ok?'✅':'❌'} ${s.label}</div>`).join('')}
+      </div>
+      <div class="mbtns"><button class="mbc" onclick="closeM()">Fermer</button></div>`;
+  }).catch(e=>{
+    document.getElementById('mc').innerHTML=`
+      <div class="mt" style="color:#f87171"><i class="ti ti-wifi-off" aria-hidden="true"></i> Erreur bot</div>
+      <div class="wbox">Bot tsy miandry. Jereo Termux.</div>
+      <div class="mbtns"><button class="mbc" onclick="closeM()">Fermer</button></div>`;
+  });
 }
 
 function toggleAuto(){
   autoOn=!autoOn;
-  var t=document.getElementById('atog');
-  var l=document.getElementById('albl');
-  var k=document.getElementById('tok');
-  if(autoOn){t.className='tog on';l.textContent='ON';l.className='tlbl on';}
-  else{t.className='tog';l.textContent='OFF';l.className='tlbl off';}
+  const tog=document.getElementById('auto-toggle');
+  const lbl=document.getElementById('auto-lbl');
+  const knob=document.getElementById('toggle-knob');
+  if(autoOn){
+    tog.className='toggle on'; lbl.textContent='ON'; lbl.className='toggle-lbl on';
+  } else {
+    tog.className='toggle'; lbl.textContent='OFF'; lbl.className='toggle-lbl off';
+  }
 }
 
-function toggleAS(){
-  asOn=!asOn;
-  var b=document.getElementById('abtn');
-  var ic=document.getElementById('aic');
-  var tx=document.getElementById('atxt');
-  if(asOn){b.className='bauto on';ic.className='ti ti-player-pause';tx.textContent='Stop';doScan();asInt=setInterval(doScan,15000);}
-  else{b.className='bauto';ic.className='ti ti-player-play';tx.textContent='Auto';clearInterval(asInt);}
+function toggleAutoScan(){
+  autoScanOn=!autoScanOn;
+  const btn=document.getElementById('auto-scan-btn');
+  const ic=document.getElementById('auto-scan-ic');
+  const txt=document.getElementById('auto-scan-txt');
+  if(autoScanOn){
+    btn.className='btn-auto-scan on';
+    ic.className='ti ti-player-pause';
+    txt.textContent='Stop';
+    doScan();
+    autoScanInt=setInterval(doScan,15000);
+  } else {
+    btn.className='btn-auto-scan';
+    ic.className='ti ti-player-play';
+    txt.textContent='Auto';
+    clearInterval(autoScanInt);
+  }
 }
 
-var TRI=[
+// ══════════════════════════════════════════════════
+//  Triangulaire pairs
+// ══════════════════════════════════════════════════
+const TRI=[
   {s1:'ETHBTC',s2:'ETHUSDT',s3:'BTCUSDT',a:'BTC',b:'ETH'},
   {s1:'BNBBTC',s2:'BNBUSDT',s3:'BTCUSDT',a:'BTC',b:'BNB'},
   {s1:'BNBETH',s2:'BNBUSDT',s3:'ETHUSDT',a:'ETH',b:'BNB'},
@@ -376,4 +565,329 @@ var TRI=[
   {s1:'TRXBTC',s2:'TRXUSDT',s3:'BTCUSDT',a:'BTC',b:'TRX'},
   {s1:'SHIBBTC',s2:'SHIBUSDT',s3:'BTCUSDT',a:'BTC',b:'SHIB'},
   {s1:'SUIBTC',s2:'SUIUSDT',s3:'BTCUSDT',a:'BTC',b:'SUI'},
-  {s1:'ARBBTC',s2:'AR
+  {s1:'ARBBTC',s2:'ARBUSDT',s3:'BTCUSDT',a:'BTC',b:'ARB'},
+  {s1:'OPBTC',s2:'OPUSDT',s3:'BTCUSDT',a:'BTC',b:'OP'},
+];
+
+function calcTri(pm, feePct, minP, exName){
+  const f=feePct/100, res=[];
+  TRI.forEach(p=>{
+    const p1=pm[p.s1],p2=pm[p.s2],p3=pm[p.s3];
+    if(!p1||!p2||!p3)return;
+    [
+      {route:`USDT→${p.a}→${p.b}→USDT`,
+       calcBrut:()=>((1/p3)/p1*p2-1)*100,
+       calcNet:()=>((1/p3)*(1-f)/p1*(1-f)*p2*(1-f)-1)*100},
+      {route:`USDT→${p.b}→${p.a}→USDT`,
+       calcBrut:()=>((1/p2)*p1*p3-1)*100,
+       calcNet:()=>((1/p2)*(1-f)*p1*(1-f)*p3*(1-f)-1)*100},
+    ].forEach(({route,calcBrut,calcNet})=>{
+      try{
+        const brut=calcBrut();
+        const net=calcNet();
+        const fraisTot=parseFloat((feePct*3).toFixed(3));
+        if(net>=minP&&net<=5&&isFinite(net)){
+          res.push({
+            route,
+            profitBrut:parseFloat(brut.toFixed(4)),
+            profitNet:parseFloat(net.toFixed(4)),
+            profit:parseFloat(net.toFixed(4)),
+            frais:fraisTot,
+            exchange:exName,
+            a:p.a,b:p.b,fee:feePct
+          });
+        }
+      }catch(e){}
+    });
+  });
+  return res;
+}
+
+// ══════════════════════════════════════════════════
+//  Scan
+// ══════════════════════════════════════════════════
+async function doScan(){
+  const ic=document.getElementById('scan-ic');
+  ic.className='ti ti-refresh spin';
+  document.getElementById('dot').className='dot sc';
+  document.getElementById('slbl').textContent='Scanning...';
+  document.getElementById('prog').textContent='Fetching Binance + MEXC...';
+
+  try{
+    const minP=parseFloat(document.getElementById('min-p').value)||0.05;
+    const feeB=parseFloat(document.getElementById('fee-in').value)||0.1;
+    const capital=parseFloat(document.getElementById('capital-in').value)||350;
+
+    const [rb,rm]=await Promise.all([
+      fetch('https://api.binance.com/api/v3/ticker/price').then(r=>r.json()).catch(()=>[]),
+      fetch('http://localhost:9090/mexc/prices').then(r=>r.json()).then(d=>typeof d.prices==='object'?Object.entries(d.prices).map(([symbol,price])=>({symbol,price})):[]).catch(()=>[]),
+    ]);
+
+    const bm={},mm={};
+    if(Array.isArray(rb)) rb.forEach(x=>{bm[x.symbol]=parseFloat(x.price);});
+    if(Array.isArray(rm)) rm.forEach(x=>{if(x.symbol&&x.price)mm[x.symbol]=parseFloat(x.price);});
+    const mexcOk=Object.keys(mm).length>0;
+    document.getElementById('prog').textContent=mexcOk?'':'⚠️ MEXC tsy miasa — retry...';
+
+    let results=[];
+    if(Object.keys(bm).length) results=results.concat(calcTri(bm,feeB,minP,'Binance'));
+    if(Object.keys(mm).length) results=results.concat(calcTri(mm,0,minP,'MEXC'));
+
+    results.sort((a,b)=>b.profitNet-a.profitNet);
+    scanData=results.map(r=>({...r,capital,gain:parseFloat((r.profitNet/100*capital).toFixed(4))}));
+
+    document.getElementById('opp-count').textContent=scanData.length;
+    document.getElementById('max-profit').textContent=scanData.length?'+'+scanData[0].profitNet.toFixed(3)+'% NET':'0%';
+    document.getElementById('ticker').textContent=
+      `Binance: ${Object.keys(bm).length} pairs · MEXC: ${Object.keys(mm).length} pairs · ${new Date().toLocaleTimeString()}`;
+    document.getElementById('dot').className='dot on';
+    document.getElementById('slbl').textContent=`Live — ${scanData.length} opps`;
+    document.getElementById('prog').textContent='';
+
+    // Auto trade
+    if(autoOn && scanData.length){
+      const autoMin=parseFloat(document.getElementById('auto-min').value)||0.3;
+      const autoAmt=parseFloat(document.getElementById('auto-amount').value)||50;
+      const best=scanData.find(r=>r.profitNet>=autoMin);
+      if(best) executeTradeAuto(best,autoAmt);
+    }
+
+    renderTable(scanData);
+  }catch(e){
+    document.getElementById('dot').className='dot';
+    document.getElementById('slbl').textContent='Erreur';
+    document.getElementById('prog').textContent='Erreur API — réessayez';
+  }
+  ic.className='ti ti-refresh';
+}
+
+// ══════════════════════════════════════════════════
+//  Render
+// ══════════════════════════════════════════════════
+function renderTable(data){
+  const el=document.getElementById('results');
+  if(!data.length){
+    el.innerHTML='<div class="empty"><i class="ti ti-mood-empty" style="font-size:28px;display:block;margin-bottom:8px" aria-hidden="true"></i>Tsy misy opportunité izao<br><span style="font-size:11px">Avereno 8h–12h na 18h–22h</span></div>';
+    return;
+  }
+  el.innerHTML=data.map((r,i)=>{
+    const isMexc=r.exchange==='MEXC';
+    const isSim=simMode;
+    const gainNet=parseFloat((r.profitNet/100*r.capital).toFixed(4));
+    return `<div class="row ${isSim?'sim-row':'hot'}">
+      <div class="rt">
+        <div>
+          <span class="rx">${r.route}</span>
+          <div class="rdb ${isMexc?'mexc':'bnb'}">${r.exchange} · brut ${r.profitBrut.toFixed(3)}% − frais ${r.frais}% = <strong>net ${r.profitNet.toFixed(3)}%</strong>${isSim?' · SIM':''}</div>
+        </div>
+        <span class="pp">+${r.profitNet.toFixed(3)}%</span>
+        <span class="gv">+${gainNet.toFixed(3)}<br><span style="font-size:9px;color:#555">USDT NET</span></span>
+        <button class="btn-go ${isSim?'sim':''}" onclick="showDetail(${i})">${isSim?'Sim':'<i class="ti ti-player-play"></i>'}</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════
+//  Execute
+// ══════════════════════════════════════════════════
+function executeTradeAuto(r, amount){
+  if(simMode){
+    const gainNet=parseFloat((r.profitNet/100*amount).toFixed(4));
+    history.sim.trades.unshift({
+      time:new Date().toLocaleTimeString(),
+      route:r.route,exchange:r.exchange,
+      profitBrut:r.profitBrut,frais:r.frais,
+      profit:r.profitNet,gain:gainNet,amount,mode:'AUTO-SIM'
+    });
+    history.sim.profit=parseFloat((history.sim.profit+gainNet).toFixed(4));
+    history.sim.count++;
+    document.getElementById('sim-total').textContent=history.sim.profit.toFixed(3)+' USDT NET';
+    saveState();
+  }
+}
+
+function executeTradeManual(i){
+  const r=scanData[i];
+  const amount=parseFloat(document.getElementById('capital-in').value)||350;
+  if(simMode){
+    const gainNet=parseFloat((r.profitNet/100*amount).toFixed(4));
+    history.sim.trades.unshift({
+      time:new Date().toLocaleTimeString(),
+      route:r.route,exchange:r.exchange,
+      profitBrut:r.profitBrut,frais:r.frais,
+      profit:r.profitNet,gain:gainNet,amount,mode:'MANUEL-SIM'
+    });
+    history.sim.profit=parseFloat((history.sim.profit+gainNet).toFixed(4));
+    history.sim.count++;
+    document.getElementById('sim-total').textContent=history.sim.profit.toFixed(3)+' USDT NET';
+    saveState();
+    document.getElementById('mc').innerHTML=`
+      <div class="mt" style="color:#38bdf8"><i class="ti ti-flask" aria-hidden="true"></i> Simulation exécutée</div>
+      <div class="mr"><span>Route</span><span class="mm">${r.route}</span></div>
+      <div class="mr"><span>Profit brut</span><span class="mv">+${r.profitBrut.toFixed(4)}%</span></div>
+      <div class="mr"><span>Frais (${r.fee}% × 3)</span><span class="mv" style="color:#f87171">−${r.frais}%</span></div>
+      <div class="mr"><span>Profit NET</span><span class="mg">+${r.profitNet.toFixed(4)}%</span></div>
+      <div class="mr"><span>Gain NET simulé</span><span class="mg">+${gainNet} USDT</span></div>
+      <div class="mr"><span>Capital simulé</span><span class="mv">${amount} USDT</span></div>
+      <div class="simbox"><i class="ti ti-info-circle" aria-hidden="true"></i> Simulation — aucun ordre réel. Activez Mode Réel + API keys pour trader.</div>
+      <div class="mbtns"><button class="mbc" onclick="closeM()">Fermer</button></div>`;
+    openM();
+    return;
+  }
+  // Mode réel — miantso bot @ localhost:9090
+  fetch('http://localhost:9090/health').then(r=>r.json()).then(health=>{
+    if(!health.binance){
+      document.getElementById('mc').innerHTML=`
+        <div class="mt" style="color:#f87171"><i class="ti ti-x" aria-hidden="true"></i> Bot tsy configured</div>
+        <div class="wbox">Binance API tsy configured ao amin'ny bot. Jereo Termux.</div>
+        <div class="mbtns"><button class="mbc" onclick="closeM()">Fermer</button></div>`;
+      openM();return;
+    }
+    document.getElementById('mc').innerHTML=`
+      <div class="mt" style="color:#f59e0b"><i class="ti ti-alert-triangle" aria-hidden="true"></i> Confirmer Trade Réel</div>
+      <div class="mr"><span>Route</span><span class="mm">${r.route}</span></div>
+      <div class="mr"><span>Profit NET</span><span class="mg">+${r.profitNet.toFixed(4)}%</span></div>
+      <div class="mr"><span>Gain NET</span><span class="mg">+${parseFloat((r.profitNet/100*amount).toFixed(4))} USDT</span></div>
+      <div class="mr"><span>Capital</span><span class="mv">${amount} USDT</span></div>
+      <div class="wbox"><i class="ti ti-alert-triangle" aria-hidden="true"></i> Trade réel — vola marina! Tsy azo averina.</div>
+      <div class="mbtns">
+        <button class="mbc" onclick="closeM()">Annuler</button>
+        <button class="mbg" onclick="doExecuteReal(${i},${amount})"><i class="ti ti-player-play" aria-hidden="true"></i> Confirmer</button>
+      </div>`;
+    openM();
+  }).catch(()=>{
+    document.getElementById('mc').innerHTML=`
+      <div class="mt" style="color:#f87171"><i class="ti ti-wifi-off" aria-hidden="true"></i> Bot tsy miasa</div>
+      <div class="wbox">Termux bot tsy hita @ localhost:9090. Jereo Termux.</div>
+      <div class="ibox">Soraty @ Termux: python3 bot_command</div>
+      <div class="mbtns"><button class="mbc" onclick="closeM()">Fermer</button></div>`;
+    openM();
+  });
+    <div class="mbtns">
+      <button class="mbc" onclick="closeM()">Annuler</button>
+      <a class="mbg" href="${r.exchange==='MEXC'?'https://www.mexc.com/exchange/'+r.a+'_USDT':'https://www.binance.com/trade/'+r.a+'_USDT'}" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> Ouvrir ${r.exchange}</a>
+    </div>`;
+  openM();
+}
+
+function showDetail(i){
+  const r=scanData[i];
+  const pts=r.route.split('→');
+  const isSim=simMode;
+  document.getElementById('mc').innerHTML=`
+    <div class="mt" style="color:${isSim?'#38bdf8':'#4ade80'}">
+      <i class="ti ti-${isSim?'flask':'arrows-exchange'}" aria-hidden="true"></i>
+      ${isSim?'Simulation':'Exécution'} — ${r.exchange}
+    </div>
+    <div class="mr"><span>Route</span><span class="mm">${r.route}</span></div>
+    <div class="mr"><span>Exchange</span><span class="mv">${r.exchange}</span></div>
+    <div class="mr"><span>Profit brut</span><span class="mv">+${r.profitBrut.toFixed(4)}%</span></div>
+    <div class="mr"><span>Frais (${r.fee}% × 3)</span><span class="mv" style="color:#f87171">−${r.frais}%</span></div>
+    <div class="mr"><span>Profit NET</span><span class="mg">+${r.profitNet.toFixed(4)}%</span></div>
+    <div class="mr"><span>Gain NET</span><span class="mg">+${parseFloat((r.profitNet/100*r.capital).toFixed(4))} USDT</span></div>
+    <div class="mr"><span>Capital</span><span class="mv">${r.capital} USDT</span></div>
+    <div style="margin-top:10px;font-size:12px;color:#666;margin-bottom:6px">Étapes:</div>
+    <div>
+      <div class="mstep"><span class="mnum">1</span><div class="mtxt">Mividy <strong>${pts[1]}</strong> avec USDT</div></div>
+      <div class="mstep"><span class="mnum">2</span><div class="mtxt">Échange <strong>${pts[1]}</strong> → <strong>${pts[2]}</strong></div></div>
+      <div class="mstep"><span class="mnum">3</span><div class="mtxt">Mivarotra <strong>${pts[2]}</strong> → récupérer USDT → <span style="color:#4ade80">+${r.gain} USDT</span></div></div>
+    </div>
+    ${isSim?'<div class="simbox"><i class="ti ti-flask" aria-hidden="true"></i> Mode simulation — aucun ordre réel</div>':'<div class="ibox"><i class="ti ti-bulb" aria-hidden="true"></i> MEXC fees 0% = profit maximal!</div>'}
+    <div class="mbtns">
+      <button class="mbc" onclick="closeM()">Annuler</button>
+      <button class="mbg ${isSim?'sim':''}" onclick="closeM();executeTradeManual(${i})">
+        <i class="ti ti-${isSim?'flask':'player-play'}" aria-hidden="true"></i> ${isSim?'Simuler':'Exécuter'}
+      </button>
+    </div>`;
+  openM();
+}
+
+// ══════════════════════════════════════════════════
+//  Dashboard
+// ══════════════════════════════════════════════════
+function updateDashboard(){
+  document.getElementById('d-sim-profit').textContent=history.sim.profit.toFixed(4)+' USDT';
+  document.getElementById('d-sim-trades').textContent=history.sim.count;
+  document.getElementById('d-real-profit').textContent=history.real.profit.toFixed(4)+' USDT';
+  document.getElementById('d-real-success').textContent=history.real.success;
+  document.getElementById('d-real-failed').textContent=history.real.failed;
+  const t=history.real.success+history.real.failed;
+  document.getElementById('d-rate').textContent=t>0?Math.round(history.real.success/t*100)+'%':'—';
+
+  const allTrades=[...history.sim.trades,...history.real.trades]
+    .sort((a,b)=>b.profit-a.profit);
+  if(allTrades.length){
+    document.getElementById('d-best').textContent='+'+allTrades[0].profit.toFixed(3)+'%';
+  }
+
+  const exCount={};
+  [...history.sim.trades,...history.real.trades].forEach(t=>{
+    exCount[t.exchange]=(exCount[t.exchange]||0)+1;
+  });
+  const bestEx=Object.entries(exCount).sort((a,b)=>b[1]-a[1])[0];
+  if(bestEx) document.getElementById('d-ex').textContent=bestEx[0];
+
+  const histEl=document.getElementById('hist-list');
+  const all=[...history.sim.trades.map(t=>({...t,isSim:true})),
+             ...history.real.trades.map(t=>({...t,isSim:false}))]
+    .slice(0,30);
+  if(!all.length){
+    histEl.innerHTML='<div class="empty" style="padding:1rem">Aucun trade</div>';
+    return;
+  }
+  histEl.innerHTML=all.map(t=>`
+    <div class="hist-item">
+      <div class="hist-left">
+        <div class="hist-route">${t.route}</div>
+        <div class="hist-meta">${t.time} · ${t.exchange} · ${t.mode}</div>
+      </div>
+      <div class="hist-right">
+        <div class="hist-profit ${t.gain>=0?'g':'r'}">+${parseFloat(t.gain).toFixed(4)} USDT</div>
+        <div class="hist-mode">+${t.profit.toFixed(3)}%</div>
+      </div>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════
+//  Settings
+// ══════════════════════════════════════════════════
+function saveTelegram(){
+  cfg.telegram.token=document.getElementById('tg-token').value;
+  cfg.telegram.chatid=document.getElementById('tg-chatid').value;
+  saveState();
+  alert('Telegram sauvegardé!');
+}
+
+function saveExchange(ex){
+  const key=document.getElementById(ex+'-key').value;
+  const secret=document.getElementById(ex+'-secret').value;
+  const pp=document.getElementById(ex+'-pp')?.value||'';
+  if(key) cfg.exchanges[ex].key=key;
+  if(secret) cfg.exchanges[ex].secret=secret;
+  if(pp) cfg.exchanges[ex].pp=pp;
+  saveState();
+  updateStatusBadges();
+  alert(ex.toUpperCase()+' sauvegardé!');
+}
+
+function updateStatusBadges(){
+  ['binance','mexc','kucoin','bybit','bitget'].forEach(ex=>{
+    const el=document.getElementById(ex+'-status');
+    if(el){
+      const ok=!!cfg.exchanges[ex]?.key;
+      el.className='set-status '+(ok?'ok':'no');
+      el.textContent=ok?'✅ Configuré':'Non configuré';
+    }
+  });
+}
+
+// ══════════════════════════════════════════════════
+//  Modal
+// ══════════════════════════════════════════════════
+function openM(){document.getElementById('ov').className='ov show';}
+function closeM(){document.getElementById('ov').className='ov';}
+function bgClose(e){if(e.target===document.getElementById('ov'))closeM();}
+</script>
+</body>
+</html>
