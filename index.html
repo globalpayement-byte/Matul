@@ -1,0 +1,277 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
+.app{max-width:480px;margin:0 auto;padding:16px}
+.top-bar{text-align:center;padding:20px 0 18px}
+.logo-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px}
+.logo-icon{width:38px;height:38px;border-radius:50%;background:#1a3a1a;border:2px solid #4ade80;display:flex;align-items:center;justify-content:center;font-size:11px;color:#4ade80;font-weight:600}
+.logo-name{font-size:14px;color:#c8f135;font-weight:600}
+.app-title{font-size:32px;font-weight:600;color:#c8f135}
+.app-sub{font-size:13px;color:#888;margin-top:4px}
+.conn-badge{font-size:13px;color:#aaa;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:#555}
+.dot.on{background:#4ade80;animation:pulse 2s infinite}
+.dot.scan{background:#f59e0b;animation:pulse .6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.stat-card{background:#1a1a1a;border-radius:12px;padding:14px 16px;border:0.5px solid #2a2a2a}
+.stat-label{font-size:11px;color:#666;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.stat-val{font-size:22px;font-weight:600;color:#38bdf8}
+.stat-val.green{color:#4ade80}
+.stat-val.sm{font-size:14px;color:#aaa;font-weight:400}
+.controls{background:#1a1a1a;border-radius:12px;padding:14px;margin-bottom:14px;border:0.5px solid #2a2a2a}
+.ctrl-row{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end}
+.ctrl-group{display:flex;flex-direction:column;gap:5px}
+.ctrl-label{font-size:11px;color:#666;text-transform:uppercase;letter-spacing:.5px}
+.ctrl-input{background:#111;border:0.5px solid #333;border-radius:8px;color:#fff;font-size:14px;padding:8px 10px;width:95px;outline:none}
+.ctrl-input:focus{border-color:#4ade80}
+.btn-scan{background:#c8f135;color:#111;border:none;border-radius:8px;font-size:14px;font-weight:600;padding:10px 18px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.btn-scan:active{opacity:.8}
+.btn-auto{background:#1a2a1a;color:#4ade80;border:1px solid #4ade80;border-radius:8px;font-size:13px;padding:10px 12px;cursor:pointer}
+.btn-auto.on{background:#4ade80;color:#111}
+.tbl-header{display:grid;grid-template-columns:2.5fr 1fr 1fr 65px;gap:4px;padding:8px 10px;margin-bottom:6px}
+.tbl-header span{font-size:11px;color:#555;font-weight:600;text-transform:uppercase}
+.row{background:#1a1a1a;border-radius:10px;margin-bottom:8px;border:0.5px solid #2a2a2a;overflow:hidden}
+.row.suspect{border-color:#4a2800}
+.row-top{display:grid;grid-template-columns:2.5fr 1fr 1fr 65px;gap:4px;padding:12px 10px;align-items:center}
+.route-text{font-size:11px;color:#ddd;font-family:'Courier New',monospace;line-height:1.5}
+.dex-badge{font-size:10px;color:#888;margin-top:2px}
+.suspect-badge{font-size:10px;background:#4a2800;color:#f59e0b;border-radius:4px;padding:1px 5px;margin-left:4px}
+.profit-pos{font-size:13px;font-weight:600;color:#4ade80}
+.profit-warn{font-size:13px;font-weight:600;color:#f59e0b}
+.gain-val{font-size:12px;color:#4ade80;font-weight:500}
+.btn-trade{background:#4ade80;color:#111;border:none;border-radius:7px;font-size:12px;font-weight:600;padding:8px 4px;cursor:pointer;width:100%}
+.btn-trade.warn{background:#f59e0b}
+.empty{text-align:center;color:#444;font-size:14px;padding:2.5rem 1rem;line-height:2}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;align-items:flex-end;justify-content:center}
+.overlay.show{display:flex}
+.modal{background:#1a1a1a;border-radius:16px 16px 0 0;padding:24px 20px 32px;width:100%;max-width:480px;border-top:0.5px solid #333;max-height:88vh;overflow-y:auto}
+.modal-handle{width:40px;height:4px;background:#333;border-radius:2px;margin:0 auto 20px}
+.modal-title{font-size:16px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.modal-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:0.5px solid #222;font-size:14px}
+.modal-row span:first-child{color:#777}
+.modal-row .val{color:#fff;font-weight:500}
+.modal-row .mono{font-family:'Courier New',monospace;font-size:11px;color:#aaa;text-align:right;max-width:60%}
+.steps{margin-top:12px}
+.step{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:0.5px solid #1a1a1a}
+.step-num{min-width:24px;height:24px;border-radius:50%;background:#c8f135;color:#111;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center}
+.step-txt{font-size:13px;color:#ccc;line-height:1.5}
+.step-txt strong{color:#fff}
+.step-link{display:inline-block;margin-top:6px;font-size:12px;color:#38bdf8;text-decoration:none}
+.warn-box{background:#2a1800;border:0.5px solid #4a2800;border-radius:8px;padding:12px;margin-top:14px;font-size:12px;color:#f59e0b;line-height:1.6}
+.info-box{background:#0a2a1a;border:0.5px solid #1a4a2a;border-radius:8px;padding:12px;margin-top:10px;font-size:12px;color:#4ade80;line-height:1.7}
+.modal-btns{display:flex;gap:10px;margin-top:20px}
+.btn-cancel{flex:1;background:#222;color:#aaa;border:0.5px solid #333;border-radius:10px;padding:13px;cursor:pointer;font-size:14px}
+.btn-go{flex:1;background:#4ade80;color:#111;border:none;border-radius:10px;padding:13px;cursor:pointer;font-size:14px;font-weight:600;text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:6px}
+.footer{text-align:center;padding:20px 0 8px;font-size:11px;color:#333}
+.ticker{font-size:11px;color:#444;text-align:center;padding:4px 0 10px;font-family:'Courier New',monospace}
+.liq-bar{height:3px;background:#111;border-radius:2px;margin-top:4px}
+.liq-fill{height:100%;background:#4ade80;border-radius:2px}
+.spinning{animation:spin 1s linear infinite}
+</style>
+
+<div class="app">
+  <div class="top-bar">
+    <div class="logo-row">
+      <div class="logo-icon">MT</div>
+      <span class="logo-name">MatulMada</span>
+    </div>
+    <div class="app-title">Matul Trade</div>
+    <div class="app-sub">DEX Arbitrage Scanner — PancakeSwap BSC</div>
+    <div class="conn-badge"><span class="dot" id="dot"></span><span id="status-lbl">Prêt à scanner</span></div>
+  </div>
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-label">Opportunités</div><div class="stat-val green" id="opp-count">0</div></div>
+    <div class="stat-card"><div class="stat-label">Profit max</div><div class="stat-val green" id="max-profit">—</div></div>
+  </div>
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-label">Capital (USDT)</div>
+      <input id="capital-in" type="number" value="100" style="width:100%;background:transparent;border:none;color:#4ade80;font-size:20px;font-weight:600;padding:0;margin-top:4px;outline:none">
+    </div>
+    <div class="stat-card"><div class="stat-label">Dernière MAJ</div><div class="stat-val sm" id="last-upd">—</div></div>
+  </div>
+  <div class="controls">
+    <div class="ctrl-row">
+      <div class="ctrl-group"><span class="ctrl-label">Min profit %</span><input class="ctrl-input" type="number" id="min-p" value="0.1" step="0.05" min="0.01"></div>
+      <div class="ctrl-group"><span class="ctrl-label">Min liq $</span><input class="ctrl-input" type="number" id="min-liq" value="10000" step="5000"></div>
+      <button class="btn-scan" onclick="doScan()"><i class="ti ti-refresh" id="scan-ic"></i> Scan</button>
+      <button class="btn-auto" id="auto-btn" onclick="toggleAuto()"><i class="ti ti-player-play" id="auto-ic"></i></button>
+    </div>
+  </div>
+  <div class="tbl-header"><span>Route</span><span>Profit</span><span>Gain</span><span>Trade</span></div>
+  <div id="results">
+    <div class="empty"><i class="ti ti-arrows-exchange" style="font-size:40px;color:#333;display:block;margin-bottom:14px"></i>Tsindrio Scan<br>hahitana opportunités DEX<br><span style="font-size:12px;color:#555">PancakeSwap · BSC Network</span></div>
+  </div>
+  <div class="ticker" id="ticker"></div>
+  <div class="footer">Matul Trade © 2025 — Fitia tech · DexScreener API</div>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeIfBg(event)">
+  <div class="modal"><div class="modal-handle"></div><div id="modal-content"></div></div>
+</div>
+
+<script>
+let scanData=[],autoInt=null,autoOn=false;
+
+async function fetchDex(){
+  const queries=['WBNB%20USDT','CAKE%20USDT','ETH%20USDT','BTC%20USDT'];
+  let all=[];
+  for(const q of queries){
+    try{
+      const r=await fetch('https://api.dexscreener.com/latest/dex/search?q='+q);
+      const d=await r.json();
+      const bsc=(d.pairs||[]).filter(p=>
+        p.chainId==='bsc' &&
+        parseFloat(p.liquidity&&p.liquidity.usd||0)>5000 &&
+        parseFloat(p.priceUsd||0)>0
+      );
+      all=all.concat(bsc);
+    }catch(e){}
+  }
+  const seen=new Set();
+  return all.filter(p=>{
+    if(!p.pairAddress||seen.has(p.pairAddress))return false;
+    seen.add(p.pairAddress);return true;
+  });
+}
+
+function calcOpps(pairs,minP,minLiq){
+  // Construire price map — un seul prix par token (meilleure liquidité)
+  const pm={};
+  pairs.forEach(p=>{
+    const sym=p.baseToken&&p.baseToken.symbol;
+    const price=parseFloat(p.priceUsd||0);
+    const liq=parseFloat(p.liquidity&&p.liquidity.usd||0);
+    const dex=p.dexId||'?';
+    // Filtre: prix valide, pas de stablecoins entre eux
+    if(!sym||!price||price<=0||liq<5000)return;
+    if(!pm[sym]||liq>pm[sym].l) pm[sym]={p:price,l:liq,d:dex};
+  });
+
+  const FEE=0.0025; // 0.25% frais PancakeSwap
+  const res=[];
+  const toks=Object.keys(pm);
+
+  // TRIANGULAIRE: USDT -> A -> B -> USDT
+  // Formula correcte:
+  // Step1: 1 USDT -> (1/priceA_inUSD) * (1-fee) tokens A
+  // Step2: tokensA -> tokensA * (priceA/priceB) * (1-fee) tokens B
+  // Step3: tokensB -> tokensB * priceB_inUSD * (1-fee) USDT
+  // Profit = (final - 1) * 100
+
+  for(let i=0;i<toks.length;i++){
+    for(let j=i+1;j<toks.length;j++){
+      const a=toks[i],b=toks[j];
+      const pa=pm[a].p, pb=pm[b].p;
+      const liq=Math.min(pm[a].l,pm[b].l);
+      if(liq<minLiq)return;
+
+      // Route 1: USDT->A->B->USDT
+      const tokA1=(1/pa)*(1-FEE);
+      const tokB1=tokA1*(pa/pb)*(1-FEE);
+      const final1=tokB1*pb*(1-FEE);
+      const p1=(final1-1)*100;
+
+      // Route 2: USDT->B->A->USDT
+      const tokB2=(1/pb)*(1-FEE);
+      const tokA2=tokB2*(pb/pa)*(1-FEE);
+      const final2=tokA2*pa*(1-FEE);
+      const p2=(final2-1)*100;
+
+      [[p1,`USDT→${a}→${b}→USDT`],[p2,`USDT→${b}→${a}→USDT`]].forEach(([pft,route])=>{
+        // Filtre strict: profit réaliste entre 0.1% et 5% max
+        if(pft>=minP && pft<=5 && isFinite(pft)){
+          res.push({route,profit:pft,liq,dex:pm[a].d,suspect:pft>2});
+        }
+      });
+    }
+  }
+  return res.sort((a,b)=>b.profit-a.profit).slice(0,15);
+}
+
+async function doScan(){
+  const ic=document.getElementById('scan-ic');
+  ic.className='ti ti-refresh spinning';
+  document.getElementById('dot').className='dot scan';
+  document.getElementById('status-lbl').textContent='Scanning BSC...';
+  try{
+    const minP=parseFloat(document.getElementById('min-p').value)||0.1;
+    const minLiq=parseFloat(document.getElementById('min-liq').value)||10000;
+    const capital=parseFloat(document.getElementById('capital-in').value)||100;
+    const pairs=await fetchDex();
+    const results=calcOpps(pairs,minP,minLiq);
+    scanData=(results||[]).map(r=>({...r,capital,gain:parseFloat((r.profit/100*capital).toFixed(4))}));
+    document.getElementById('opp-count').textContent=scanData.length;
+    document.getElementById('max-profit').textContent=scanData.length?scanData[0].profit.toFixed(3)+'%':'0%';
+    document.getElementById('last-upd').textContent=new Date().toLocaleTimeString();
+    document.getElementById('ticker').textContent='Pairs: '+pairs.length+' · BSC · '+new Date().toLocaleTimeString();
+    document.getElementById('dot').className='dot on';
+    document.getElementById('status-lbl').textContent='Live — '+pairs.length+' pairs BSC';
+    renderTable(scanData);
+  }catch(e){
+    console.error(e);
+    document.getElementById('results').innerHTML='<div class="empty" style="color:#f87171"><i class="ti ti-wifi-off" style="font-size:32px;display:block;margin-bottom:10px"></i>Erreur API — réessayez</div>';
+    document.getElementById('dot').className='dot';
+    document.getElementById('status-lbl').textContent='Erreur';
+  }
+  ic.className='ti ti-refresh';
+}
+
+function renderTable(data){
+  const el=document.getElementById('results');
+  if(!data||!data.length){
+    el.innerHTML='<div class="empty"><i class="ti ti-mood-empty" style="font-size:36px;color:#333;display:block;margin-bottom:12px"></i>Tsy misy opportunité réaliste izao<br><span style="font-size:12px;color:#555">Avereno 8h–12h na 18h–22h</span></div>';
+    return;
+  }
+  const mx=Math.max(...data.map(r=>r.liq));
+  el.innerHTML=data.map((r,i)=>
+    '<div class="row'+(r.suspect?' suspect':'')+'">'+
+    '<div class="row-top">'+
+    '<div>'+
+    '<span class="route-text">'+r.route+'</span>'+
+    (r.suspect?'<span class="suspect-badge">⚠ Vérifier</span>':'')+
+    '<div class="dex-badge">'+r.dex+' · $'+(r.liq/1000).toFixed(0)+'k liq</div>'+
+    '<div class="liq-bar"><div class="liq-fill" style="width:'+(r.liq/mx*100).toFixed(0)+'%"></div></div>'+
+    '</div>'+
+    '<span class="'+(r.suspect?'profit-warn':'profit-pos')+'">+'+r.profit.toFixed(3)+'%</span>'+
+    '<span class="gain-val">+'+r.gain.toFixed(3)+'<br><span style="font-size:10px;color:#666">USDT</span></span>'+
+    '<button class="btn-trade'+(r.suspect?' warn':'')+'" onclick="showTrade('+i+')"><i class="ti ti-player-play"></i> Go</button>'+
+    '</div></div>'
+  ).join('');
+}
+
+function showTrade(i){
+  const r=scanData[i];
+  const pts=r.route.split('→');
+  document.getElementById('modal-content').innerHTML=
+    '<div class="modal-title" style="color:#4ade80"><i class="ti ti-arrows-exchange"></i> Exécution DEX</div>'+
+    '<div class="modal-row"><span>Route</span><span class="mono">'+r.route+'</span></div>'+
+    '<div class="modal-row"><span>Profit estimé</span><span class="val" style="color:#4ade80">+'+r.profit.toFixed(4)+'%</span></div>'+
+    '<div class="modal-row"><span>Gain estimé</span><span class="val" style="color:#4ade80">+'+r.gain+' USDT</span></div>'+
+    '<div class="modal-row"><span>Capital</span><span class="val">'+r.capital+' USDT</span></div>'+
+    '<div class="modal-row"><span>Liquidité</span><span class="val">$'+(r.liq/1000).toFixed(0)+'k</span></div>'+
+    '<div style="margin-top:14px;font-size:13px;color:#888;margin-bottom:8px">Étapes execution:</div>'+
+    '<div class="steps">'+
+    '<div class="step"><span class="step-num">1</span><div class="step-txt">Sokafy <strong>PancakeSwap</strong> — connect Trust Wallet<br><a class="step-link" href="https://pancakeswap.finance/swap" target="_blank">pancakeswap.finance ↗</a></div></div>'+
+    '<div class="step"><span class="step-num">2</span><div class="step-txt">Swap <strong>'+pts[0]+'</strong> → <strong>'+pts[1]+'</strong> ('+r.capital+' USDT)</div></div>'+
+    '<div class="step"><span class="step-num">3</span><div class="step-txt">Swap <strong>'+pts[1]+'</strong> → <strong>'+pts[2]+'</strong></div></div>'+
+    '<div class="step"><span class="step-num">4</span><div class="step-txt">Swap <strong>'+pts[2]+'</strong> → <strong>'+(pts[3]||'USDT')+'</strong><br><span style="color:#4ade80">→ Profit +'+r.gain+' USDT</span></div></div>'+
+    '</div>'+
+    (r.suspect?'<div class="warn-box"><i class="ti ti-alert-triangle"></i> Profit > 2% — mety tsy azo tratrarina ara-potoana. Jereo tsara ny prix alohan\'ny execution.</div>':'')+
+    '<div class="info-box"><i class="ti ti-bulb"></i> Active indrindra: 8h–12h sy 18h–22h. Mila BNB ho gas fees (~0.5 USDT).</div>'+
+    '<div class="modal-btns"><button class="btn-cancel" onclick="closeModal()">Fermer</button><a class="btn-go" href="https://pancakeswap.finance/swap" target="_blank"><i class="ti ti-external-link"></i> PancakeSwap</a></div>';
+  openModal();
+}
+
+function toggleAuto(){
+  autoOn=!autoOn;
+  const b=document.getElementById('auto-btn'),ic=document.getElementById('auto-ic');
+  if(autoOn){b.className='btn-auto on';ic.className='ti ti-player-pause';doScan();autoInt=setInterval(doScan,60000);}
+  else{b.className='btn-auto';ic.className='ti ti-player-play';clearInterval(autoInt);}
+}
+function openModal(){document.getElementById('overlay').className='overlay show';}
+function closeModal(){document.getElementById('overlay').className='overlay';}
+function closeIfBg(e){if(e.target===document.getElementById('overlay'))closeModal();}
+</script>
