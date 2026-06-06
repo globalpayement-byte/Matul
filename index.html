@@ -389,15 +389,10 @@ function toggleAS(){
 
 var TRI=[
   {s1:'ETHBTC',s2:'ETHUSDT',s3:'BTCUSDT',a:'BTC',b:'ETH'},
-  {s1:'BNBBTC',s2:'BNBUSDT',s3:'BTCUSDT',a:'BTC',b:'BNB'},
-  {s1:'BNBETH',s2:'BNBUSDT',s3:'ETHUSDT',a:'ETH',b:'BNB'},
-  {s1:'XRPETH',s2:'XRPUSDT',s3:'ETHUSDT',a:'ETH',b:'XRP'},
-  {s1:'SOLETH',s2:'SOLUSDT',s3:'ETHUSDT',a:'ETH',b:'SOL'},
-  {s1:'MATICETH',s2:'MATICUSDT',s3:'ETHUSDT',a:'ETH',b:'MATIC'},
-  {s1:'ADAETH',s2:'ADAUSDT',s3:'ETHUSDT',a:'ETH',b:'ADA'},
-  {s1:'LINKETH',s2:'LINKUSDT',s3:'ETHUSDT',a:'ETH',b:'LINK'},
-  {s1:'LTCETH',s2:'LTCUSDT',s3:'ETHUSDT',a:'ETH',b:'LTC'},
-  {s1:'TRXETH',s2:'TRXUSDT',s3:'ETHUSDT',a:'ETH',b:'TRX'},
+  {s1:'SOLBTC',s2:'SOLUSDT',s3:'BTCUSDT',a:'BTC',b:'SOL'},
+  {s1:'XRPBTC',s2:'XRPUSDT',s3:'BTCUSDT',a:'BTC',b:'XRP'},
+  {s1:'ADABTC',s2:'ADAUSDT',s3:'BTCUSDT',a:'BTC',b:'ADA'},
+  {s1:'LTCBTC',s2:'LTCUSDT',s3:'BTCUSDT',a:'BTC',b:'LTC'},
 ];
 
 function calcTri(pm,fp,minP,ex){
@@ -591,7 +586,7 @@ function doReal(i,amt){
   fetch('http://localhost:'+BOT+'/execute',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({route:r.route,amount:amt,a:r.a,b:r.b})
+    body:JSON.stringify({route:r.route,amount:amt,a:r.a,b:r.b,exchange:r.ex})
   }).then(function(res){return res.json();}).then(function(result){
     var g=parseFloat((r.net/100*amt).toFixed(4));
     if(result.success){
