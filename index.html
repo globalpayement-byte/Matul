@@ -160,7 +160,13 @@ body{background:#0a0a0a;color:#fff;font-family:-apple-system,BlinkMacSystemFont,
       <button onclick="saveSettings()" style="background:#4ade80;color:#111;border:none;border-radius:6px;font-size:10px;font-weight:600;padding:4px 8px;cursor:pointer">💾</button>
     </div>
   </div>
-  <div class="sc"><div class="sl">Profit simulé NET</div><div class="sv y" id="simtot">0.000 USDT</div></div>
+  <div class="sc"><div class="sl">Solde départ (USDT)</div>
+    <div style="display:flex;align-items:center;gap:6px;margin-top:2px">
+      <input id="solde" type="number" value="75" style="width:100%;background:transparent;border:none;color:#38bdf8;font-size:18px;font-weight:600;padding:0;outline:none" onchange="updateSolde()">
+      <button onclick="updateSolde()" style="background:#38bdf8;color:#111;border:none;border-radius:6px;font-size:10px;font-weight:600;padding:4px 8px;cursor:pointer">💾</button>
+    </div>
+  </div>
+  <div class="sc"><div class="sl">Solde actuel simulé</div><div class="sv g" id="simtot">75.000 USDT</div></div>
 </div>
 
 <div class="acard">
@@ -303,8 +309,9 @@ var sd=[],autoOn=false,asInt=null,asOn=false,simMode=true;
 var hist={sim:{t:[],p:0,n:0},real:{t:[],p:0,s:0,f:0}};
 var cfg={tg:{tok:'',cid:''},ex:{binance:{k:'',s:''},mexc:{k:'',s:''}}};
 
-try{var h=localStorage.getItem('mt_h');if(h)hist=JSON.parse(h);}catch(e){}
+try{var h=localStorage.getItem('mt_h');if(h){hist=JSON.parse(h);if(hist.sim.solde)document.getElementById('solde').value=hist.sim.solde;}}catch(e){}
 try{var c=localStorage.getItem('mt_c');if(c){cfg=JSON.parse(c);updBdg();}}catch(e){}
+updSimDisplay();
 
 // Load saved settings
 try{
@@ -319,6 +326,18 @@ try{
   }
 }catch(e){}
 
+function updateSolde(){
+  var s=parseFloat(document.getElementById('solde').value)||75;
+  hist.sim.solde=s;
+  save();
+  updSimDisplay();
+}
+function updSimDisplay(){
+  var solde=hist.sim.solde||75;
+  var total=solde+hist.sim.p;
+  document.getElementById('simtot').textContent=total.toFixed(3)+' USDT';
+  document.getElementById('simtot').style.color=hist.sim.p>=0?'#4ade80':'#f87171';
+}
 function save(){
   try{localStorage.setItem('mt_h',JSON.stringify(hist));localStorage.setItem('mt_c',JSON.stringify(cfg));}catch(e){}
 }
@@ -352,329 +371,4 @@ function toggleMode(){
   simMode=!simMode;
   var b=document.getElementById('mban');
   var l=document.getElementById('mlbl');
-  var s=document.getElementById('msub');
-  var n=document.getElementById('snote');
-  if(simMode){
-    b.className='mban sim';
-    l.className='mlbl sim';
-    l.textContent='🧪 MODE SIMULATION';
-    s.textContent='Tsy execute trade marina — tsindrio hanova';
-    n.style.display='block';
-  } else {
-    b.className='mban rel';
-    l.className='mlbl rel';
-    l.textContent='⚡ MODE RÉEL';
-    s.textContent='Bot Termux execute trades — tsindrio hanova';
-    n.style.display='none';
-  }
-}
-
-function toggleAuto(){
-  autoOn=!autoOn;
-  var t=document.getElementById('atog');
-  var l=document.getElementById('albl');
-  var k=document.getElementById('tok');
-  if(autoOn){t.className='tog on';l.textContent='ON';l.className='tlbl on';}
-  else{t.className='tog';l.textContent='OFF';l.className='tlbl off';}
-}
-
-function toggleAS(){
-  asOn=!asOn;
-  var b=document.getElementById('abtn');
-  var ic=document.getElementById('aic');
-  var tx=document.getElementById('atxt');
-  if(asOn){b.className='bauto on';ic.className='ti ti-player-pause';tx.textContent='Stop';doScan();asInt=setInterval(doScan,15000);}
-  else{b.className='bauto';ic.className='ti ti-player-play';tx.textContent='Auto';clearInterval(asInt);}
-}
-
-var TRI=[
-  {s1:'ETHBTC',s2:'ETHUSDT',s3:'BTCUSDT',a:'BTC',b:'ETH'},
-  {s1:'BNBBTC',s2:'BNBUSDT',s3:'BTCUSDT',a:'BTC',b:'BNB'},
-  {s1:'BNBETH',s2:'BNBUSDT',s3:'ETHUSDT',a:'ETH',b:'BNB'},
-  {s1:'SOLBTC',s2:'SOLUSDT',s3:'BTCUSDT',a:'BTC',b:'SOL'},
-  {s1:'DOTBTC',s2:'DOTUSDT',s3:'BTCUSDT',a:'BTC',b:'DOT'},
-  {s1:'ATOMBTC',s2:'ATOMUSDT',s3:'BTCUSDT',a:'BTC',b:'ATOM'},
-  {s1:'TRXBTC',s2:'TRXUSDT',s3:'BTCUSDT',a:'BTC',b:'TRX'},
-  {s1:'XRPBTC',s2:'XRPUSDT',s3:'BTCUSDT',a:'BTC',b:'XRP'},
-  {s1:'ADABTC',s2:'ADAUSDT',s3:'BTCUSDT',a:'BTC',b:'ADA'},
-  {s1:'DOGEBTC',s2:'DOGEUSDT',s3:'BTCUSDT',a:'BTC',b:'DOGE'},
-  {s1:'LTCBTC',s2:'LTCUSDT',s3:'BTCUSDT',a:'BTC',b:'LTC'},
-  {s1:'LINKBTC',s2:'LINKUSDT',s3:'BTCUSDT',a:'BTC',b:'LINK'},
-  {s1:'AVAXBTC',s2:'AVAXUSDT',s3:'BTCUSDT',a:'BTC',b:'AVAX'},
-  {s1:'SUIBTC',s2:'SUIUSDT',s3:'BTCUSDT',a:'BTC',b:'SUI'},
-  {s1:'ARBBTC',s2:'ARBUSDT',s3:'BTCUSDT',a:'BTC',b:'ARB'},
-];
-// Binance ihany — MARKET order miasa tsara
-
-function calcTri(pm,fp,minP,ex){
-  var f=fp/100,res=[];
-  TRI.forEach(function(p){
-    var p1=pm[p.s1],p2=pm[p.s2],p3=pm[p.s3];
-    // Auto-filter: raha tsy misy ny pair iray dia skip
-    if(!p1||!p2||!p3)return;
-    // Roa directions miasa @ Binance
-    var routes=[
-      {route:'USDT→'+p.a+'→'+p.b+'→USDT',
-       brut:function(){return((1/p3)/p1*p2-1)*100;},
-       net:function(){return((1/p3)*(1-f)/p1*(1-f)*p2*(1-f)-1)*100;}},
-      {route:'USDT→'+p.b+'→'+p.a+'→USDT',
-       brut:function(){return((1/p2)*p1*p3-1)*100;},
-       net:function(){return((1/p2)*(1-f)*p1*(1-f)*p3*(1-f)-1)*100;}}
-    ];
-    routes.forEach(function(r){
-      try{
-        var bn=r.brut(),nt=r.net(),fr=parseFloat((fp*3).toFixed(3));
-        if(nt>=minP&&nt<=5&&isFinite(nt)){
-          res.push({route:r.route,brut:parseFloat(bn.toFixed(4)),net:parseFloat(nt.toFixed(4)),frais:fr,ex:ex,a:p.a,b:p.b,fee:fp});
-        }
-      }catch(e){}
-    });
-  });
-  return res;
-}
-
-function doScan(){
-  var ic=document.getElementById('sic');
-  ic.className='ti ti-refresh spin';
-  document.getElementById('dot').className='dot sc';
-  document.getElementById('slbl').textContent='Scanning...';
-  document.getElementById('prog').textContent='Fetching Binance...';
-
-  var minP=parseFloat(document.getElementById('minp').value)||0.05;
-  var feeB=parseFloat(document.getElementById('fee').value)||0.1;
-  var capital=parseFloat(document.getElementById('cap').value)||100;
-  var tradeAmt=parseFloat(document.getElementById('aamt').value)||30;
-
-  fetch('https://api.binance.com/api/v3/ticker/price').then(function(r){return r.json();}).then(function(rb){
-    var bm={};
-    if(Array.isArray(rb))rb.forEach(function(x){bm[x.symbol]=parseFloat(x.price);});
-    var results=calcTri(bm,feeB,minP,'Binance');
-    results.sort(function(a,b){return b.net-a.net;});
-    sd=results.map(function(r){return Object.assign({},r,{capital:capital,tradeAmt:tradeAmt,gain:parseFloat((r.net/100*tradeAmt).toFixed(4))});});
-    var activePairs=TRI.filter(function(p){return bm[p.s1]&&bm[p.s2]&&bm[p.s3];}).length;
-    document.getElementById('opp').textContent=sd.length;
-    document.getElementById('maxp').textContent=sd.length?'+'+sd[0].net.toFixed(3)+'% NET':'0%';
-    document.getElementById('tkr').textContent='Binance: '+Object.keys(bm).length+' pairs · Actifs: '+activePairs+'/'+TRI.length+' · '+new Date().toLocaleTimeString();
-    document.getElementById('dot').className='dot on';
-    document.getElementById('slbl').textContent='Live';
-    document.getElementById('prog').textContent='';
-    if(autoOn&&sd.length){
-      var am=parseFloat(document.getElementById('amin').value)||0.3;
-      var aa=parseFloat(document.getElementById('aamt').value)||30;
-      var best=null;
-      for(var i=0;i<sd.length;i++){if(sd[i].net>=am){best=sd[i];break;}}
-      if(best)execAuto(best,aa);
-    }
-    renderTable(sd);
-  }).catch(function(){
-    document.getElementById('dot').className='dot';
-    document.getElementById('slbl').textContent='Erreur';
-    document.getElementById('prog').textContent='Erreur API Binance';
-  }).finally(function(){
-    ic.className='ti ti-refresh';
-  });
-}
-
-function renderTable(data){
-  var el=document.getElementById('res');
-  if(!data||!data.length){
-    el.innerHTML='<div class="empty"><i class="ti ti-mood-empty" style="font-size:28px;display:block;margin-bottom:8px"></i>Tsy misy opportunité izao<br><span style="font-size:11px">Avereno 20h–22h na 8h–12h</span></div>';
-    return;
-  }
-  var html='';
-  data.forEach(function(r,i){
-    var isSim=simMode;
-    html+='<div class="row '+(isSim?'sim':'hot')+'">';
-    html+='<div class="rt">';
-    html+='<div><span class="rx">'+r.route+'</span>';
-    html+='<div class="rdb">'+r.ex+' · brut '+r.brut.toFixed(3)+'% − '+r.frais+'% = <strong style="color:#4ade80">net '+r.net.toFixed(3)+'%</strong>'+(isSim?' · SIM':'')+'</div></div>';
-    html+='<span class="pp">+'+r.net.toFixed(3)+'%</span>';
-    html+='<span class="gv">+'+r.gain.toFixed(3)+'<br><span style="font-size:9px;color:#555">NET</span></span>';
-    html+='<button class="bgo '+(isSim?'s':'')+'" onclick="showDet('+i+')">'+(isSim?'Sim':'▶')+'</button>';
-    html+='</div></div>';
-  });
-  el.innerHTML=html;
-}
-
-function execAuto(r,amt){
-  if(simMode){
-    var g=parseFloat((r.net/100*amt).toFixed(4));
-    hist.sim.t.unshift({time:new Date().toLocaleTimeString(),route:r.route,ex:r.ex,brut:r.brut,frais:r.frais,profit:r.net,gain:g,amt:amt,mode:'AUTO-SIM'});
-    hist.sim.p=parseFloat((hist.sim.p+g).toFixed(4));
-    hist.sim.n++;
-    document.getElementById('simtot').textContent=hist.sim.p.toFixed(3)+' USDT NET';
-    save();
-  }
-}
-
-function showDet(i){
-  var r=sd[i];
-  var pts=r.route.split('→');
-  var html='<div class="mt2" style="color:'+(simMode?'#38bdf8':'#4ade80')+'">';
-  html+='<i class="ti ti-arrows-exchange"></i> '+(simMode?'Simulation':'Exécution')+' — '+r.ex+'</div>';
-  html+='<div class="mr2"><span>Route</span><span class="mm">'+r.route+'</span></div>';
-  html+='<div class="mr2"><span>Profit brut</span><span class="mv">+'+r.brut.toFixed(4)+'%</span></div>';
-  html+='<div class="mr2"><span>Frais ('+r.fee+'%×3)</span><span class="mv" style="color:#f87171">−'+r.frais+'%</span></div>';
-  html+='<div class="mr2"><span>Profit NET</span><span class="mg">+'+r.net.toFixed(4)+'%</span></div>';
-  html+='<div class="mr2"><span>Gain NET</span><span class="mg">+'+r.gain+' USDT</span></div>';
-  html+='<div class="mr2"><span>Capital</span><span class="mv">'+r.capital+' USDT</span></div>';
-  html+='<div style="margin-top:10px;font-size:12px;color:#666;margin-bottom:6px">Étapes:</div>';
-  html+='<div>';
-  html+='<div class="ms"><span class="mn">1</span><div class="mtx">Mividy <strong>'+pts[1]+'</strong> avec USDT</div></div>';
-  html+='<div class="ms"><span class="mn">2</span><div class="mtx">Échange <strong>'+pts[1]+'</strong> → <strong>'+pts[2]+'</strong></div></div>';
-  html+='<div class="ms"><span class="mn">3</span><div class="mtx">Mivarotra → récupérer USDT → <span style="color:#4ade80">+'+r.gain+' USDT NET</span></div></div>';
-  html+='</div>';
-  if(simMode){html+='<div class="sbox">🧪 Simulation — aucun ordre réel</div>';}
-  else{html+='<div class="ibox">💡 Bot Termux execute trades 3 en ~1 sec!</div>';}
-  html+='<div class="mbtns">';
-  html+='<button class="mbc" onclick="closeM()">Annuler</button>';
-  html+='<button class="mbg '+(simMode?'s':'')+'" onclick="closeM();execTrade('+i+')">';
-  html+='<i class="ti ti-'+(simMode?'flask':'player-play')+'"></i> '+(simMode?'Simuler':'Exécuter')+'</button>';
-  html+='</div>';
-  document.getElementById('mc').innerHTML=html;
-  openM();
-}
-
-function execTrade(i){
-  var r=sd[i];
-  var amt=r.tradeAmt||parseFloat(document.getElementById('aamt').value)||50;
-  if(simMode){
-    var g=parseFloat((r.net/100*amt).toFixed(4));
-    hist.sim.t.unshift({time:new Date().toLocaleTimeString(),route:r.route,ex:r.ex,brut:r.brut,frais:r.frais,profit:r.net,gain:g,amt:amt,mode:'SIM'});
-    hist.sim.p=parseFloat((hist.sim.p+g).toFixed(4));
-    hist.sim.n++;
-    document.getElementById('simtot').textContent=hist.sim.p.toFixed(3)+' USDT NET';
-    save();
-    var html='<div class="mt2" style="color:#38bdf8">🧪 Simulation OK</div>';
-    html+='<div class="mr2"><span>Profit brut</span><span class="mv">+'+r.brut.toFixed(4)+'%</span></div>';
-    html+='<div class="mr2"><span>Frais</span><span class="mv" style="color:#f87171">−'+r.frais+'%</span></div>';
-    html+='<div class="mr2"><span>Profit NET</span><span class="mg">+'+r.net.toFixed(4)+'%</span></div>';
-    html+='<div class="mr2"><span>Gain NET simulé</span><span class="mg">+'+g+' USDT</span></div>';
-    html+='<div class="sbox">Simulation — aucun ordre réel. Activez Mode Réel pour trader.</div>';
-    html+='<div class="mbtns"><button class="mbc" onclick="closeM()">Fermer</button></div>';
-    document.getElementById('mc').innerHTML=html;
-    openM();
-    return;
-  }
-  fetch('http://localhost:'+BOT+'/health').then(function(res){return res.json();}).then(function(h){
-    if(!h.binance){
-      document.getElementById('mc').innerHTML='<div class="mt2" style="color:#f87171">❌ Bot tsy configured</div><div class="wbox">Binance API tsy configured. Jereo Config tab.</div><div class="mbtns"><button class="mbc" onclick="closeM()">Fermer</button></div>';
-      openM();return;
-    }
-    var g=parseFloat((r.net/100*amt).toFixed(4));
-    var html='<div class="mt2" style="color:#f59e0b">⚠️ Confirmer Trade Réel</div>';
-    html+='<div class="mr2"><span>Route</span><span class="mm">'+r.route+'</span></div>';
-    html+='<div class="mr2"><span>Profit NET</span><span class="mg">+'+r.net.toFixed(4)+'%</span></div>';
-    html+='<div class="mr2"><span>Gain NET estimé</span><span class="mg">+'+g+' USDT</span></div>';
-    html+='<div class="mr2"><span>Capital</span><span class="mv">'+amt+' USDT</span></div>';
-    html+='<div class="wbox">⚠️ Trade réel — vola marina! Tsy azo averina.</div>';
-    html+='<div class="mbtns"><button class="mbc" onclick="closeM()">Annuler</button>';
-    html+='<button class="mbg" onclick="doReal('+i+','+amt+')">▶ Confirmer</button></div>';
-    document.getElementById('mc').innerHTML=html;
-    openM();
-  }).catch(function(){
-    document.getElementById('mc').innerHTML='<div class="mt2" style="color:#f87171">❌ Bot tsy miasa</div><div class="wbox">Termux bot tsy hita @ port '+BOT+'. Démarrez le bot.</div><div class="mbtns"><button class="mbc" onclick="closeM()">Fermer</button></div>';
-    openM();
-  });
-}
-
-function doReal(i,amt){
-  var r=sd[i];
-  document.getElementById('mc').innerHTML='<div class="mt2" style="color:#f59e0b"><i class="ti ti-loader spin"></i> Execution...</div><div style="text-align:center;padding:20px;color:#aaa">Bot manao trades 3 @ Binance...<br><span style="font-size:11px">~1 sec</span></div>';
-  fetch('http://localhost:'+BOT+'/execute',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({route:r.route,amount:amt,a:r.a,b:r.b,exchange:r.ex})
-  }).then(function(res){return res.json();}).then(function(result){
-    var g=parseFloat((r.net/100*amt).toFixed(4));
-    if(result.success){
-      hist.real.s++;hist.real.p=parseFloat((hist.real.p+g).toFixed(4));
-      hist.real.t.unshift({time:new Date().toLocaleTimeString(),route:r.route,ex:r.ex,profit:r.net,gain:g,amt:amt,mode:'RÉEL',ok:true,ms:result.total_ms});
-    } else {
-      hist.real.f++;
-      hist.real.t.unshift({time:new Date().toLocaleTimeString(),route:r.route,ex:r.ex,profit:r.net,gain:0,amt:amt,mode:'RÉEL',ok:false});
-    }
-    save();
-    var html='<div class="mt2" style="color:'+(result.success?'#4ade80':'#f87171')+'">'+(result.success?'✅ Réussi!':'❌ Échoué')+'</div>';
-    html+='<div class="mr2"><span>Route</span><span class="mm">'+r.route+'</span></div>';
-    html+='<div class="mr2"><span>Durée</span><span class="mv">'+result.total_ms+'ms</span></div>';
-    if(result.success)html+='<div class="mr2"><span>Gain NET</span><span class="mg">+'+g+' USDT</span></div>';
-    var steps=result.steps||[];
-    html+='<div style="margin-top:8px">';
-    steps.forEach(function(s){
-      html+='<div style="font-size:12px;padding:5px 0;border-bottom:.5px solid #222;color:'+(s.ok?'#4ade80':'#f87171')+'">'+(s.ok?'✅':'❌')+' '+s.label+'</div>';
-    });
-    html+='</div><div class="mbtns"><button class="mbc" onclick="closeM()">Fermer</button></div>';
-    document.getElementById('mc').innerHTML=html;
-  }).catch(function(){
-    document.getElementById('mc').innerHTML='<div class="mt2" style="color:#f87171">❌ Erreur bot</div><div class="wbox">Bot tsy miandry @ port '+BOT+'.</div><div class="mbtns"><button class="mbc" onclick="closeM()">Fermer</button></div>';
-  });
-}
-
-function checkBot(){
-  var el=document.getElementById('bot-st');
-  el.textContent='Vérification...';
-  fetch('http://localhost:'+BOT+'/health').then(function(r){return r.json();}).then(function(h){
-    if(h.binance){el.className='sst ok';el.textContent='✅ OK — Binance configuré';}
-    else{el.className='sst no';el.textContent='⚠️ Bot miasa — Binance tsy configured';}
-  }).catch(function(){
-    el.className='sst no';el.textContent='❌ Bot tsy miasa (port '+BOT+')';
-  });
-}
-
-function updDash(){
-  document.getElementById('dsp').textContent=hist.sim.p.toFixed(4)+' USDT NET';
-  document.getElementById('dst').textContent=hist.sim.n;
-  document.getElementById('drp').textContent=hist.real.p.toFixed(4)+' USDT NET';
-  document.getElementById('drs').textContent=hist.real.s;
-  document.getElementById('drf').textContent=hist.real.f;
-  var t=hist.real.s+hist.real.f;
-  document.getElementById('drt').textContent=t>0?Math.round(hist.real.s/t*100)+'%':'—';
-  var all=hist.sim.t.concat(hist.real.t);
-  if(all.length){
-    var best=0;
-    all.forEach(function(x){if(x.profit>best)best=x.profit;});
-    document.getElementById('dbt').textContent='+'+best.toFixed(3)+'%';
-  }
-  var hl=document.getElementById('hlist');
-  if(!all.length){hl.innerHTML='<div class="empty" style="padding:1rem">Aucun trade</div>';return;}
-  var html='';
-  all.slice(0,30).forEach(function(t){
-    html+='<div class="hi">';
-    html+='<div class="hl"><div class="hr2">'+t.route+'</div>';
-    html+='<div class="hm">'+t.time+' · '+(t.ex||'')+'·'+t.mode+'</div></div>';
-    html+='<div class="hrt"><div class="hp '+(t.gain>0?'g':'r')+'">+'+parseFloat(t.gain).toFixed(4)+' USDT</div>';
-    html+='<div style="font-size:10px;color:#666">+'+t.profit.toFixed(3)+'% NET</div></div>';
-    html+='</div>';
-  });
-  hl.innerHTML=html;
-}
-
-function saveEx(ex){
-  var k=document.getElementById(ex==='binance'?'bnk':'mxk').value;
-  var s=document.getElementById(ex==='binance'?'bns':'mxs').value;
-  if(k)cfg.ex[ex].k=k;
-  if(s)cfg.ex[ex].s=s;
-  save();updBdg();
-  alert(ex.toUpperCase()+' sauvegardé!');
-}
-
-function updBdg(){
-  ['binance','mexc'].forEach(function(ex){
-    var el=document.getElementById(ex==='binance'?'bnb-st':'mxc-st');
-    if(el){var ok=!!(cfg.ex[ex]&&cfg.ex[ex].k);el.className='sst '+(ok?'ok':'no');el.textContent=ok?'✅ Configuré':'Non configuré';}
-  });
-}
-
-function saveTG(){
-  cfg.tg.tok=document.getElementById('tgt').value;
-  cfg.tg.cid=document.getElementById('tgc').value;
-  save();alert('Telegram sauvegardé!');
-}
-
-function openM(){document.getElementById('ov').className='ov show';}
-function closeM(){document.getElementById('ov').className='ov';}
-document.getElementById('ov').addEventListener('click',function(e){if(e.target===this)closeM();});
-</script>
-</body>
-</html>
+ 
