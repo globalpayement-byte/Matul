@@ -438,43 +438,29 @@ function doScan(){
   ic.className='ti ti-refresh spin';
   document.getElementById('dot').className='dot sc';
   document.getElementById('slbl').textContent='Scanning...';
-  document.getElementById('prog').textContent='Fetching Binance + MEXC...';
+  document.getElementById('prog').textContent='Fetching Binance...';
 
   var minP=parseFloat(document.getElementById('minp').value)||0.05;
   var feeB=parseFloat(document.getElementById('fee').value)||0.1;
-  var capital=parseFloat(document.getElementById('cap').value)||350;
+  var capital=parseFloat(document.getElementById('cap').value)||100;
+  var tradeAmt=parseFloat(document.getElementById('aamt').value)||30;
 
-  var pb=fetch('https://api.binance.com/api/v3/ticker/price').then(function(r){return r.json();}).catch(function(){return[];});
-  var pm=fetch('http://localhost:'+BOT+'/mexc/prices').then(function(r){return r.json();}).then(function(d){
-    if(d&&d.prices){return Object.entries(d.prices).map(function(e){return{symbol:e[0],price:e[1]};});}
-    return[];
-  }).catch(function(){return[];});
-
-  Promise.all([pb,pm]).then(function(rs){
-    var rb=rs[0],rm=rs[1];
-    var bm={},mm={};
+  fetch('https://api.binance.com/api/v3/ticker/price').then(function(r){return r.json();}).then(function(rb){
+    var bm={};
     if(Array.isArray(rb))rb.forEach(function(x){bm[x.symbol]=parseFloat(x.price);});
-    if(Array.isArray(rm))rm.forEach(function(x){if(x.symbol&&x.price)mm[x.symbol]=parseFloat(x.price);});
-
-    var mok=Object.keys(mm).length>0;
-    var results=[];
-    if(Object.keys(bm).length)results=results.concat(calcTri(bm,feeB,minP,'Binance'));
-    if(mok)results=results.concat(calcTri(mm,0,minP,'MEXC'));
+    var results=calcTri(bm,feeB,minP,'Binance');
     results.sort(function(a,b){return b.net-a.net;});
-    var tradeAmt=parseFloat(document.getElementById('aamt').value)||50;
     sd=results.map(function(r){return Object.assign({},r,{capital:capital,tradeAmt:tradeAmt,gain:parseFloat((r.net/100*tradeAmt).toFixed(4))});});
-
     var activePairs=TRI.filter(function(p){return bm[p.s1]&&bm[p.s2]&&bm[p.s3];}).length;
     document.getElementById('opp').textContent=sd.length;
     document.getElementById('maxp').textContent=sd.length?'+'+sd[0].net.toFixed(3)+'% NET':'0%';
-    document.getElementById('tkr').textContent='Binance: '+Object.keys(bm).length+' · MEXC: '+Object.keys(mm).length+' pairs · Triangulaire actifs: '+activePairs+'/'+TRI.length+' · '+new Date().toLocaleTimeString();
+    document.getElementById('tkr').textContent='Binance: '+Object.keys(bm).length+' pairs · Actifs: '+activePairs+'/'+TRI.length+' · '+new Date().toLocaleTimeString();
     document.getElementById('dot').className='dot on';
     document.getElementById('slbl').textContent='Live';
-    document.getElementById('prog').textContent=mok?'':'⚠️ MEXC: démarrez bot Termux (port '+BOT+')';
-
+    document.getElementById('prog').textContent='';
     if(autoOn&&sd.length){
       var am=parseFloat(document.getElementById('amin').value)||0.3;
-      var aa=parseFloat(document.getElementById('aamt').value)||50;
+      var aa=parseFloat(document.getElementById('aamt').value)||30;
       var best=null;
       for(var i=0;i<sd.length;i++){if(sd[i].net>=am){best=sd[i];break;}}
       if(best)execAuto(best,aa);
