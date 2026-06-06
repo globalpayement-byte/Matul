@@ -11,7 +11,7 @@ body{background:#0a0a0a;color:#fff;font-family:-apple-system,BlinkMacSystemFont,
 .app{max-width:480px;margin:0 auto;padding:14px;padding-bottom:80px}
 .hdr{text-align:center;padding:14px 0 10px}
 .logo{width:42px;height:42px;border-radius:50%;background:#1a3a1a;border:2px solid #4ade80;display:flex;align-items:center;justify-content:center;font-size:13px;color:#4ade80;font-weight:600;margin:0 auto 6px}
-.title{font-size:t4;font-weight:600;color:#c8f135}
+.title{font-size:26px;font-weight:600;color:#c8f135}
 .sub{font-size:11px;color:#666;margin-top:2px}
 .bdg{font-size:11px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:5px}
 .dot{width:7px;height:7px;border-radius:50%;background:#444}
@@ -389,12 +389,22 @@ function toggleAS(){
 
 var TRI=[
   {s1:'ETHBTC',s2:'ETHUSDT',s3:'BTCUSDT',a:'BTC',b:'ETH'},
+  {s1:'BNBBTC',s2:'BNBUSDT',s3:'BTCUSDT',a:'BTC',b:'BNB'},
+  {s1:'BNBETH',s2:'BNBUSDT',s3:'ETHUSDT',a:'ETH',b:'BNB'},
   {s1:'SOLBTC',s2:'SOLUSDT',s3:'BTCUSDT',a:'BTC',b:'SOL'},
   {s1:'DOTBTC',s2:'DOTUSDT',s3:'BTCUSDT',a:'BTC',b:'DOT'},
   {s1:'ATOMBTC',s2:'ATOMUSDT',s3:'BTCUSDT',a:'BTC',b:'ATOM'},
   {s1:'TRXBTC',s2:'TRXUSDT',s3:'BTCUSDT',a:'BTC',b:'TRX'},
+  {s1:'XRPBTC',s2:'XRPUSDT',s3:'BTCUSDT',a:'BTC',b:'XRP'},
+  {s1:'ADABTC',s2:'ADAUSDT',s3:'BTCUSDT',a:'BTC',b:'ADA'},
+  {s1:'DOGEBTC',s2:'DOGEUSDT',s3:'BTCUSDT',a:'BTC',b:'DOGE'},
+  {s1:'LTCBTC',s2:'LTCUSDT',s3:'BTCUSDT',a:'BTC',b:'LTC'},
+  {s1:'LINKBTC',s2:'LINKUSDT',s3:'BTCUSDT',a:'BTC',b:'LINK'},
+  {s1:'AVAXBTC',s2:'AVAXUSDT',s3:'BTCUSDT',a:'BTC',b:'AVAX'},
+  {s1:'SUIBTC',s2:'SUIUSDT',s3:'BTCUSDT',a:'BTC',b:'SUI'},
+  {s1:'ARBBTC',s2:'ARBUSDT',s3:'BTCUSDT',a:'BTC',b:'ARB'},
 ];
-// Direction fixe: USDT→BTC→COIN→USDT seulement
+// Binance ihany — MARKET order miasa tsara
 
 function calcTri(pm,fp,minP,ex){
   var f=fp/100,res=[];
@@ -402,11 +412,14 @@ function calcTri(pm,fp,minP,ex){
     var p1=pm[p.s1],p2=pm[p.s2],p3=pm[p.s3];
     // Auto-filter: raha tsy misy ny pair iray dia skip
     if(!p1||!p2||!p3)return;
-    // Direction iray fotsiny: USDT→BTC→COIN→USDT
+    // Roa directions miasa @ Binance
     var routes=[
       {route:'USDT→'+p.a+'→'+p.b+'→USDT',
        brut:function(){return((1/p3)/p1*p2-1)*100;},
-       net:function(){return((1/p3)*(1-f)/p1*(1-f)*p2*(1-f)-1)*100;}}
+       net:function(){return((1/p3)*(1-f)/p1*(1-f)*p2*(1-f)-1)*100;}},
+      {route:'USDT→'+p.b+'→'+p.a+'→USDT',
+       brut:function(){return((1/p2)*p1*p3-1)*100;},
+       net:function(){return((1/p2)*(1-f)*p1*(1-f)*p3*(1-f)-1)*100;}}
     ];
     routes.forEach(function(r){
       try{
